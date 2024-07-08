@@ -62,7 +62,6 @@
 		mapMutations,
 		mapGetters
 	} from 'vuex';
-	import eventBus from '@/eventBus';
 	export default {
 		data() {
 			return {
