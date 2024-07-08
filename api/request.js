@@ -1,6 +1,6 @@
 // 封装请求体
 const http = {
-	baseUrl : "http://127.0.0.1:8080",
+	baseUrl : "http://hdu.frei.fun",
 	request(config){
 		config = beforeRequest(config);
 		config.url = this.baseUrl+config.url;

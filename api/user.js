@@ -3,6 +3,6 @@ import http from "./request.js";
 
 export default {
 	login(params){
-		return http.get("/admin/order")
+		return http.get("/users")
 	}
 }

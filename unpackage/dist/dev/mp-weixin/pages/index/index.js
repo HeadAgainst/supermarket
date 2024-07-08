@@ -142,6 +142,11 @@ const _sfc_main = {
       });
     }
     this.changeIsFromSettleSuccess(false);
+  },
+  onLoad() {
+    this.$api.user.login().then((res) => {
+      console.log(res);
+    });
   }
 };
 if (!Array) {

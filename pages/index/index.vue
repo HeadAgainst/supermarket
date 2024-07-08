@@ -201,6 +201,11 @@
 				})
 			}
 			this.changeIsFromSettleSuccess(false);	
+		},
+		onLoad(){
+			this.$api.user.login().then(res=>{
+				console.log(res);
+			})
 		}
 	}
 </script>
