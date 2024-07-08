@@ -1,0 +1,67 @@
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* 内容在顶部对齐 */
+    align-items: center;
+    height: 100vh; /* 使容器全屏高度 */
+    background-color: #f0f0f0; /* 可选，添加背景颜色 */
+    position: relative;
+}
+.comment {
+    width: 90%; /* 调整宽度 */
+    margin: 10px 0; /* 上下边距为 10px */
+    padding: 10px; /* 内边距为 10px */
+    background-color: #fff; /* 背景颜色为白色 */
+    border-radius: 8px; /* 边框圆角半径 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 阴影效果 */
+    cursor: pointer; /* 手形光标 */
+}
+.comment-detail {
+    width: 90%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.nickname {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+}
+.top-centered-image {
+    width: 100%; /* 缩放到原始大小的一半 */
+    height: 200px; /* 固定高度 */
+    object-fit: contain; /* 确保图片按原始比例缩放 */
+    justify-content: center; /* 内容在顶部对齐 */
+    align-items: center;
+    margin-top: 20px;
+}
+.input-box {
+    width: 90%;
+    position: absolute; /* 绝对定位 */
+    bottom: 5%; /* 与底部对齐 */
+    padding: 10px 0;
+    background-color: #fff;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1); /* 添加阴影 */
+}
+textarea {
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    resize: none;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}

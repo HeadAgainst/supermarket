@@ -1,0 +1,17 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+.m-t-10.data-v-61efca94 {
+  margin-top: 20rpx;
+}
+.logout.data-v-61efca94 {
+  background-color: #fff;
+}
+.logout button.data-v-61efca94 {
+  color: #55aa00;
+  background-color: #fff;
+}

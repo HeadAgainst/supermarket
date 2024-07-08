@@ -1,0 +1,47 @@
+
+.container {
+  padding: 20px;
+}
+.address-box {
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+.address-line {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+.label {
+  width: 50px;
+  font-weight: bold;
+}
+.action-button {
+  width: 10px;
+  height:10px;
+  background-color:#ff0000;
+  margin-top: 1px;
+}
+.options {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  display: block;
+  border-radius: 10px;
+  justify-content: space-around;
+  border-top: 1px solid #fff;
+  padding: 10px 0;
+}
+.add-button {
+  width: 20%;
+  padding: 2px;
+  text-align: center;
+  font-size: 25px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

@@ -1,0 +1,39 @@
+
+.container {
+  padding: 20px;
+}
+.tab-bar {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+.tab-bar text {
+  padding: 10px;
+  cursor: pointer;
+}
+.tab-bar text.active {
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+}
+.orders {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.order-box {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  margin-top: 10px;
+  padding: 5px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #45a049;
+}
