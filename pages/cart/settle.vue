@@ -21,7 +21,7 @@
 			</uni-row>
 		</view>
 		<view class="cart">
-			<template v-for="(item, index) in cart" :key="index">
+			<template v-for="(item, index) in actualCart" :key="index">
 				<view class="good">
 					<view class="left-good">
 						<image :src="item.imageSrc" mode="" class="goods-pic"></image>
@@ -88,12 +88,16 @@
 					name: "",
 					phone: "",
 					detail: ""
-				}
+				},
 			}
 		},
 		computed: {
 			...mapGetters(['totalPrice']),
-			...mapState(['cart'])
+			...mapState(['cart']),
+			actualCart(){
+				let newCart = this.cart.filter(item => item.state == true);
+				return newCart;
+			}
 		},
 		methods: {
 			...mapMutations(['changeCartState', 'emptyCart']),

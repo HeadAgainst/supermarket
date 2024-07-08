@@ -9,6 +9,17 @@ const store = createStore({
 		"token":"",
 		"username":"foo",
 		isFromSettleSuccess:false,
+		collectionBag:[{
+			imageSrc: "../../static/goodsImage/pingguo.jpg",
+			text: "苹果",
+			remaining: "10",
+			price: 10,
+			id: "1",
+			size:"斤",
+			brand:"花果山",
+			serve:"快速配货",
+			category:"水果蔬菜"
+		}],
 		"cart":[{
 			id:"1",
 			num:1,
@@ -70,6 +81,26 @@ const store = createStore({
 		],
 	},
 	mutations:{
+		selectColletion(state, payload){
+			const {id, num, price, imageSrc, text} = payload;
+			let i = 0;
+			for(i = 0; i < this.state.collectionBag.length; i++){
+				if(id == this.state.collectionBag[i].id){
+					break;
+				}
+			}
+			if(i < this.state.collectionBag.length){
+				this.state.collectionBag.splice(i, 1);
+			}else if(i == this.state.collectionBag.length){
+				this.state.collectionBag.push({
+					id:id,
+					num:num,
+					price:price,
+					imageSrc:imageSrc,
+					text:text
+				})
+			}
+		},
 		changeIsFromSettleSuccess(state, value){
 			this.state.isFromSettleSuccess = value;
 		},
@@ -82,7 +113,6 @@ const store = createStore({
 			this.state.cart.splice(index, 1);			
 		},
 		changeCartState(state, payload){
-			// console.log(payload);
 			const {index, key, value} = payload;
 			this.state.cart[index][key] = value;
 		},
@@ -138,7 +168,6 @@ const store = createStore({
 		},
 		totalNum(state){
 			if(state.cart.length == 0){
-				// console.log("OK");
 				return 0;
 			}
 			return state.cart.length;

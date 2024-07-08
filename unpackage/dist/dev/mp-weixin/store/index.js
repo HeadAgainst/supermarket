@@ -10,6 +10,17 @@ const store = common_vendor.createStore({
     "token": "",
     "username": "foo",
     isFromSettleSuccess: false,
+    collectionBag: [{
+      imageSrc: "../../static/goodsImage/pingguo.jpg",
+      text: "苹果",
+      remaining: "10",
+      price: 10,
+      id: "1",
+      size: "斤",
+      brand: "花果山",
+      serve: "快速配货",
+      category: "水果蔬菜"
+    }],
     "cart": [{
       id: "1",
       num: 1,
@@ -72,6 +83,26 @@ const store = common_vendor.createStore({
     ]
   },
   mutations: {
+    selectColletion(state, payload) {
+      const { id, num, price, imageSrc, text } = payload;
+      let i = 0;
+      for (i = 0; i < this.state.collectionBag.length; i++) {
+        if (id == this.state.collectionBag[i].id) {
+          break;
+        }
+      }
+      if (i < this.state.collectionBag.length) {
+        this.state.collectionBag.splice(i, 1);
+      } else if (i == this.state.collectionBag.length) {
+        this.state.collectionBag.push({
+          id,
+          num,
+          price,
+          imageSrc,
+          text
+        });
+      }
+    },
     changeIsFromSettleSuccess(state, value) {
       this.state.isFromSettleSuccess = value;
     },

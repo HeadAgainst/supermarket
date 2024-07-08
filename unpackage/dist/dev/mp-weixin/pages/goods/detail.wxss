@@ -5,6 +5,9 @@
  以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
  */
 /* 水平间距 */
+#detail.data-v-adbe0a1d {
+  padding-bottom: 150rpx;
+}
 #detail .good-image .swiper-box.data-v-adbe0a1d {
   height: 400rpx;
 }
@@ -54,4 +57,10 @@
 }
 #detail .good-review .review-text.data-v-adbe0a1d {
   font-size: 25rpx;
+}
+#detail .good-review .toggle.data-v-adbe0a1d {
+  color: #00aaff;
+}
+#detail .good-review .reivew-pic image.data-v-adbe0a1d {
+  width: 100px;
 }

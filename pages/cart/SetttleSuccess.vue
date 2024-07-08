@@ -1,9 +1,9 @@
 <template>
 	<view id="success-pay">
 		<image src="../../static/success-pay.png" mode=""></image>
-		<view class="buttons" @click="goback">
+		<view class="buttons">
 		 	<navigator url="/pages/index/index" open-type="switchTab"><button>回到首页</button></navigator>
-			<navigator url="/pages/my/my-bagage"><button>查看订单</button></navigator>
+			<navigator url="/pages/my/my-bagage" ><button>查看订单</button></navigator>
 		</view>
 	</view>
 </template>
@@ -16,9 +16,12 @@
 		},
 		methods:{
 			...mapMutations(['changeIsFromSettleSuccess']),
-			goback(){
-				this.changeIsFromSettleSuccess(true);
-			}
+		},
+		onLoad(){
+			// console.log("页面加载了");
+		},
+		onUnload(){
+			this.changeIsFromSettleSuccess(true);
 		}
 	}
 </script>

@@ -31,7 +31,11 @@ const _sfc_main = {
   },
   computed: {
     ...common_vendor.mapGetters(["totalPrice"]),
-    ...common_vendor.mapState(["cart"])
+    ...common_vendor.mapState(["cart"]),
+    actualCart() {
+      let newCart = this.cart.filter((item) => item.state == true);
+      return newCart;
+    }
   },
   methods: {
     ...common_vendor.mapMutations(["changeCartState", "emptyCart"]),
@@ -91,7 +95,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       span: 2
     }),
     h: common_vendor.o((...args) => $options.getLocation && $options.getLocation(...args)),
-    i: common_vendor.f(_ctx.cart, (item, index, i0) => {
+    i: common_vendor.f($options.actualCart, (item, index, i0) => {
       return {
         a: item.imageSrc,
         b: common_vendor.t(item.text),

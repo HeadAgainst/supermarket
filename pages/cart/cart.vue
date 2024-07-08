@@ -76,11 +76,20 @@
 			}
 		},
 		computed: {
-			...mapState(['cart']),
+			...mapState(['cart', 'isFromSettleSuccess']),
 			...mapGetters(['totalPrice', 'totalNum'])
 		},
+		onShow(){
+			console.log(this.isFromSettleSuccess);
+			if(this.isFromSettleSuccess){
+				uni.removeTabBarBadge({
+					index:2
+				})
+			}
+			this.changeIsFromSettleSuccess(false);
+		},
 		methods: {
-			...mapMutations(['changeCartState', 'deleteOneGood', 'addOneGood']),
+			...mapMutations(['changeCartState', 'deleteOneGood', 'addOneGood', 'changeIsFromSettleSuccess']),
 			swipeItemClickHandler(index) {
 				this.deleteOneGood(index);
 				if(this.totalNum == 0){
@@ -121,11 +130,18 @@
 						title:"购物车为空哦~",
 						icon:"error"
 					})
+				}
+			    else if(this.cart.filter(item=>item.state == true).length == 0){
+					uni.showToast({
+						title:"请选择商品",
+						icon:"error"
+					})
 				}else{
 					uni.navigateTo({
 						url:"/pages/cart/settle"
 					})
 				}
+				this.selectAll = false;
 			}
 		},
 	}
