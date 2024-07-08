@@ -3,7 +3,7 @@
 		<view v-show="isNoCollectoin">
 			<image src="../../static/no-collection.png" mode=""></image>
 			<view style="text-align: center;">
-				收藏未空~，快去首页看看吧
+				收藏为空~，快去首页看看吧
 			</view>
 			<navigator url="/pages/index/index" open-type="switchTab">
 				<button style="width: 100%; border-radius: 20px; background-color: #c00000;
