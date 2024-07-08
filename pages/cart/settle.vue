@@ -62,7 +62,6 @@
 		mapMutations,
 		mapGetters
 	} from 'vuex';
-	import eventBus from '@/eventBus';
 	export default {
 		data() {
 			return {
@@ -203,7 +202,7 @@
 
 		button {
 			color: #fff;
-			background-color: #55aa7f;
+			background-color: #c00000;
 			height: 74upx;
 			line-height: 74upx;
 			margin: 0 10upx;
