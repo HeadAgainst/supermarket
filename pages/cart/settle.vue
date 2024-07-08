@@ -1,6 +1,6 @@
 <template>
 	<view id="settle">
-		<view class="address">
+		<view class="address" @click="getLocation">
 			<uni-row>
 				<uni-col :span="2">
 					<image src="../../static/didian.png" mode="" class="recipient-pos"></image>
@@ -8,10 +8,10 @@
 				<uni-col :span="20">
 					<view class="recipient-info">
 						<view class="address-name">
-							杭州电子科技大学
+							{{addressInfo.detail}}
 						</view>
 						<view class="user">
-							陈斌 17816189411
+							{{addressInfo.name}} {{addressInfo.phone}}
 						</view>
 					</view>
 				</uni-col>
@@ -84,6 +84,11 @@
 					text: '购物车',
 					info: 2
 				}],
+				addressInfo: {
+					name: "",
+					phone: "",
+					detail: ""
+				}
 			}
 		},
 		computed: {
@@ -92,6 +97,15 @@
 		},
 		methods: {
 			...mapMutations(['changeCartState', 'emptyCart']),
+			getLocation() {
+				wx.chooseAddress({
+					success: (res) => {
+						this.addressInfo.name = res.userName;
+						this.addressInfo.phone = res.telNumber;
+						this.addressInfo.detail = res.provinceName + res.cityName + res.countyName + res.detailInfo
+					}
+				})
+			},
 			numberChangeHandler(e, index) {
 				this.changeCartState({
 					index,
@@ -101,7 +115,7 @@
 			},
 			submit() {
 				this.emptyCart();
-				uni.navigateTo({
+				uni.redirectTo({
 					url: "/pages/cart/SetttleSuccess"
 				})
 			}
@@ -207,7 +221,7 @@
 			line-height: 74upx;
 			margin: 0 10upx;
 			border-radius: 35upx;
-		} 
+		}
 
 		.order-price {
 			display: flex;

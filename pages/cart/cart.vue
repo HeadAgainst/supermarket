@@ -1,8 +1,8 @@
 <template>
 	<view id="cart">
-		<view class="address">
-			<button size="mini" type="primary">收获地址</button>
-		</view>
+		<!-- <view class="address">
+			<button size="mini" type="primary" @click="receive">收获地址</button>
+		</view> -->
 		<view class="address-border">
 			<image src="/static/cart_border@2x.png" class="address-border"></image>
 		</view>

@@ -21,7 +21,12 @@ const _sfc_main = {
         icon: "cart",
         text: "购物车",
         info: 2
-      }]
+      }],
+      addressInfo: {
+        name: "",
+        phone: "",
+        detail: ""
+      }
     };
   },
   computed: {
@@ -30,6 +35,15 @@ const _sfc_main = {
   },
   methods: {
     ...common_vendor.mapMutations(["changeCartState", "emptyCart"]),
+    getLocation() {
+      common_vendor.wx$1.chooseAddress({
+        success: (res) => {
+          this.addressInfo.name = res.userName;
+          this.addressInfo.phone = res.telNumber;
+          this.addressInfo.detail = res.provinceName + res.cityName + res.countyName + res.detailInfo;
+        }
+      });
+    },
     numberChangeHandler(e, index) {
       this.changeCartState({
         index,
@@ -39,7 +53,7 @@ const _sfc_main = {
     },
     submit() {
       this.emptyCart();
-      common_vendor.index.navigateTo({
+      common_vendor.index.redirectTo({
         url: "/pages/cart/SetttleSuccess"
       });
     }
@@ -64,16 +78,20 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.p({
       span: 2
     }),
-    b: common_vendor.p({
+    b: common_vendor.t($data.addressInfo.detail),
+    c: common_vendor.t($data.addressInfo.name),
+    d: common_vendor.t($data.addressInfo.phone),
+    e: common_vendor.p({
       span: 20
     }),
-    c: common_vendor.p({
+    f: common_vendor.p({
       type: "right"
     }),
-    d: common_vendor.p({
+    g: common_vendor.p({
       span: 2
     }),
-    e: common_vendor.f(_ctx.cart, (item, index, i0) => {
+    h: common_vendor.o((...args) => $options.getLocation && $options.getLocation(...args)),
+    i: common_vendor.f(_ctx.cart, (item, index, i0) => {
       return {
         a: item.imageSrc,
         b: common_vendor.t(item.text),
@@ -87,12 +105,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         g: index
       };
     }),
-    f: common_vendor.t(_ctx.totalPrice),
-    g: common_vendor.p({
+    j: common_vendor.t(_ctx.totalPrice),
+    k: common_vendor.p({
       span: 12
     }),
-    h: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
-    i: common_vendor.p({
+    l: common_vendor.o((...args) => $options.submit && $options.submit(...args)),
+    m: common_vendor.p({
       span: 12
     })
   };

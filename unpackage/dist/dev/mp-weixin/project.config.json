@@ -11,6 +11,7 @@
     "minified": false,
     "newFeature": true,
     "bigPackageSizeSupport": true,
+    "packNpmRelationList": [],
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -19,7 +20,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.4.10",
-  "appid": "wxed85d0d7c77352cf",
+  "appid": "wx3d8a0831314b2c16",
   "projectname": "demo3",
   "condition": {},
   "editorSetting": {

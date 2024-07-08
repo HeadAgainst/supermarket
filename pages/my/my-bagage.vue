@@ -10,7 +10,7 @@
     <view v-if="activeTab === 'pending'" class="orders">
       <view v-for="(order, index) in pendingOrders" :key="index" class="order-box">
         <view>订单编号: {{ order.id }}</view>
-        <view>商品名称和数量: {{ order.items }}</view>
+        <view>商品名称: {{ order.items }}</view>
         <view>总价: {{ order.total }}</view>
         <view>收获地址: {{ order.address }}</view>
         <view>下单时间: {{ order.orderTime }}</view>

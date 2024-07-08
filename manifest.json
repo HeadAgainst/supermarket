@@ -50,11 +50,16 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "wxed85d0d7c77352cf",
+        "appid" : "wx3d8a0831314b2c16",
         "setting" : {
             "urlCheck" : false
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "小程序需要获取收件地址"
+            }
+        }
     },
     "vueVersion" : "3"
 }

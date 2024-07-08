@@ -3,7 +3,7 @@
 		<image src="../../static/success-pay.png" mode=""></image>
 		<view class="buttons" @click="goback">
 		 	<navigator url="/pages/index/index" open-type="switchTab"><button>回到首页</button></navigator>
-			<navigator url="/pages/my/my" open-type="switchTab"><button>查看订单</button></navigator>
+			<navigator url="/pages/my/my-bagage"><button>查看订单</button></navigator>
 		</view>
 	</view>
 </template>

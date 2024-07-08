@@ -54,5 +54,10 @@
       }
     ]
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "小程序需要获取收件地址"
+    }
+  },
   "usingComponents": {}
 }
