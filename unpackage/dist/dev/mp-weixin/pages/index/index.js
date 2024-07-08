@@ -106,7 +106,6 @@ const _sfc_main = {
       });
     },
     inputInfo(e) {
-      console.log(e);
     },
     gotoGoodDetail(goodId) {
       const url = `/pages/goods/detail?id=${goodId}`;

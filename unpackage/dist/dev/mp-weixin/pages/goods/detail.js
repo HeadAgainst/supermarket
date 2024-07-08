@@ -21,7 +21,6 @@ const _sfc_main = {
       this.current = e.detail.current;
     },
     addOrMinus(flag) {
-      console.log(this.currentId);
       if (flag == true) {
         this.addOneGood({
           id: this.currentId,
@@ -40,7 +39,6 @@ const _sfc_main = {
   },
   onLoad(options) {
     this.currentId = options.id;
-    console.log(typeof this.currentId);
   },
   computed: {
     ...common_vendor.mapState(["goods"])

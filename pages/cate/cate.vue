@@ -137,7 +137,6 @@
 			},
 			addOrMinus(add, index) {
 				this.bottomView = true;
-				console.log(this.bottomView);
 				if (add == true) {
 					this.addOneGood({
 						id: this.goods[index].id,
@@ -155,7 +154,7 @@
 			},
 		},
 		onLoad(options) {
-			console.log(options);
+			// console.log(options);
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;

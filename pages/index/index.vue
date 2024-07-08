@@ -165,7 +165,7 @@
 				})
 			},
 			inputInfo(e) {
-				console.log(e);
+				// console.log(e);
 			},
 			gotoGoodDetail(goodId) {
 				const url = `/pages/goods/detail?id=${goodId}`

@@ -28,28 +28,44 @@ const store = createStore({
 				text: "苹果",
 				remaining: "10",
 				price: 10,
-				id: "1"
+				id: "1",
+				size:"斤",
+				brand:"花果山",
+				serve:"快速配货",
+				category:"水果蔬菜"
 			},
 			{
 				imageSrc: "../../static/goodsImage/chengzi.jpg",
 				text: "橙子",
 				remaining: "100",
 				price: 20,
-				id: "2"
+				id: "2",
+				size:"斤",
+				brand:"花果山",
+				serve:"快速配货",
+				category:"水果蔬菜"
 			},
 			{
 				imageSrc: "../../static/goodsImage/xiangjiao.jpg",
 				text: "香蕉",
 				remaining: "100",
 				price: 20,
-				id: "3"
+				id: "3",
+				size:"斤",
+				brand:"花果山",
+				serve:"快速配货",
+				category:"水果蔬菜"
 			},
 			{
 				imageSrc: "../../static/goodsImage/mianbao.jpg",
 				text: "面包",
 				remaining: "20",
 				price: 10,
-				id: "4"
+				id: "4",
+				size:"斤",
+				brand:"花果山",
+				serve:"快速配货",
+				category:"休闲零食"
 			}
 		],
 	},
