@@ -1,0 +1,14 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+#success-pay .buttons button.data-v-6940d9e8 {
+  width: 100%;
+  border-radius: 20px;
+  background-color: #ff5500;
+  color: #fff;
+  margin-top: 20rpx;
+}

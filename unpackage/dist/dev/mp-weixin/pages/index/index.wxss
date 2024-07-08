@@ -1,0 +1,77 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+.container.data-v-1cf27b2a {
+  font-size: 14px;
+  line-height: 24px;
+}
+.top_box .top_back.data-v-1cf27b2a {
+  height: 400rpx;
+  width: 100%;
+  background-color: #2979ff;
+}
+.top_box .banner.data-v-1cf27b2a {
+  text-align: center;
+  margin-top: -300rpx;
+}
+.top_box .banner image.data-v-1cf27b2a {
+  width: 90%;
+  height: 90%;
+}
+#nav.data-v-1cf27b2a {
+  margin-top: 30rpx;
+}
+#nav .grid-item-box.data-v-1cf27b2a {
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20rpx 0 0 0;
+}
+#nav .grid-item-box image.data-v-1cf27b2a {
+  width: 40%;
+  height: 40%;
+}
+#recommend .title.data-v-1cf27b2a {
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #ff557f;
+}
+#recommend .title image.data-v-1cf27b2a {
+  height: 40%;
+  width: 20%;
+}
+#recommend .goods .good.data-v-1cf27b2a {
+  margin: 15rpx;
+  height: 250rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+}
+#recommend .goods .good image.data-v-1cf27b2a {
+  height: 250rpx;
+  width: 250rpx;
+}
+#recommend .goods .good .cart.data-v-1cf27b2a {
+  height: 250rpx;
+  line-height: 250rpx;
+}
+#recommend .goods .good .info .g-title.data-v-1cf27b2a {
+  margin-top: 20rpx;
+  font-size: 30rpx;
+}
+#recommend .goods .good .info .g-desc.data-v-1cf27b2a {
+  margin-top: 20rpx;
+  color: #8b8b8b;
+}
+#recommend .goods .good .info .g-price.data-v-1cf27b2a {
+  font-weight: bold;
+  color: #ff5500;
+}

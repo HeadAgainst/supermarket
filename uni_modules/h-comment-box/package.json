@@ -1,0 +1,33 @@
+{
+    "id": "h-comment-box",
+    "name": "评论、回复、点赞、删除、二级评论、评论列表、组件、模版、方便二次开发",
+    "displayName": "评论、回复、点赞、删除、二级评论、评论列表、组件、模版、方便二次开发",
+    "version": "1.1.2",
+    "description": "一个方便二次开发的评论模块，可用户评论列表，带回复评论功能",
+    "keywords": [
+        "评论",
+        "回复",
+        "点赞",
+        "删除",
+        "评论列表、二级评论、组件、模版"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ],
+        "contact": {
+            "qq": ""
+        },
+        "declaration": {
+            "ads": "无",
+            "data": "无",
+            "permissions": "无"
+        },
+        "npmurl": ""
+    },
+    "repository": "https://gitee.com/kitrig/DCloudh-comment-box",
+    "engines": {
+        "HBuilderX": "^3.7.0"
+    }
+}

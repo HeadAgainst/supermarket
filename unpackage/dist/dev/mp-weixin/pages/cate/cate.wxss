@@ -1,0 +1,65 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+#sort .navfalse.data-v-7db0ce29,
+#sort .nav.data-v-7db0ce29 {
+  display: flex;
+  text-align: center;
+  background-color: #fff;
+  height: 100vh;
+  width: 250rpx;
+}
+#sort .navfalse .title.data-v-7db0ce29,
+#sort .nav .title.data-v-7db0ce29 {
+  margin-left: 15rpx;
+  text-align: center;
+  padding-left: 10rpx;
+}
+#sort .navfalse .active.data-v-7db0ce29,
+#sort .nav .active.data-v-7db0ce29 {
+  color: #c00000;
+  font-weight: bold;
+  border-left: solid 5px #c00000;
+  border-radius: 10rpx;
+}
+#sort .nav.data-v-7db0ce29 {
+  position: fixed;
+}
+#sort .display .goods .good.data-v-7db0ce29 {
+  margin-left: 15rpx;
+  margin-top: 2rpx;
+  height: 250rpx;
+  background-color: #fff;
+  text-align: center;
+}
+#sort .display .goods .good image.data-v-7db0ce29 {
+  height: 200rpx;
+  width: 200rpx;
+}
+#sort .display .goods .good .cart.data-v-7db0ce29 {
+  height: 250rpx;
+  line-height: 250rpx;
+}
+#sort .display .goods .good .info .g-title.data-v-7db0ce29 {
+  margin-top: 20rpx;
+  font-size: 25rpx;
+}
+#sort .display .goods .good .info .g-desc.data-v-7db0ce29 {
+  margin-top: 30rpx;
+  font-size: 20rpx;
+  color: #8b8b8b;
+}
+#sort .display .goods .good .info .g-price.data-v-7db0ce29 {
+  font-weight: bold;
+  color: #ff5500;
+  font-size: 20rpx;
+  margin-top: 30rpx;
+}
+#sort .display .goods .sortName.data-v-7db0ce29 {
+  margin-left: 15rpx;
+  clear: both;
+}

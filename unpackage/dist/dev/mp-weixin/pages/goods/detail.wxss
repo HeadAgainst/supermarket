@@ -1,0 +1,57 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+#detail .good-image .swiper-box.data-v-adbe0a1d {
+  height: 400rpx;
+}
+#detail .good-image .swiper-box image.data-v-adbe0a1d {
+  height: 100%;
+  width: 100%;
+}
+#detail .good-info.data-v-adbe0a1d {
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  margin-top: 20rpx;
+  padding: 20rpx 20rpx 20rpx 30rpx;
+}
+#detail .good-info .g-title.data-v-adbe0a1d {
+  margin-top: 20rpx;
+  font-size: 35rpx;
+  font-weight: bold;
+}
+#detail .good-info .g-desc.data-v-adbe0a1d {
+  color: #8b8b8b;
+  font-size: 25rpx;
+  line-height: 50rpx;
+}
+#detail .good-info .g-price.data-v-adbe0a1d {
+  color: #ff5500;
+  font-size: 30rpx;
+  line-height: 60rpx;
+}
+#detail .good-info .select.data-v-adbe0a1d {
+  display: flex;
+  align-items: center;
+  margin-right: 50rpx;
+}
+#detail .good-review .title.data-v-adbe0a1d {
+  background-color: #fff;
+  margin-top: 20rpx;
+  font-size: 35rpx;
+  padding-left: 30rpx;
+}
+#detail .good-review .name.data-v-adbe0a1d {
+  color: #00aaff;
+}
+#detail .good-review .date.data-v-adbe0a1d {
+  color: #8b8b8b;
+  font-size: 20rpx;
+}
+#detail .good-review .review-text.data-v-adbe0a1d {
+  font-size: 25rpx;
+}

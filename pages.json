@@ -1,0 +1,109 @@
+{
+	"pages": [{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "超市商城",
+				"app-plus": {
+					"titleNView": {
+						"type": "transparent", //透明渐变导航栏 App-nvue 2.4.4+ 支持
+						"searchInput": {
+							"backgroundColor": "rgba(239, 239, 239, 0.7)",
+							"borderRadius": "16px", //输入框圆角
+							"placeholder": "请输入搜索内容",
+							"placeholderColor": "#606266"
+						}
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/cate/cate",
+			"style": {
+				"navigationBarTitleText": "分类"
+			}
+		},
+		{
+			"path": "pages/cart/cart",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/goods/detail",
+			"style": {
+				"navigationBarTitleText": "商品详情"
+			}
+		},
+		{
+			"path" : "pages/search/search",
+			"style" : 
+			{
+				"navigationBarTitleText" : "搜索商品"
+			}
+		},
+		{
+			"path" : "pages/cart/settle",
+			"style" : 
+			{
+				"navigationBarTitleText" : "确认订单"
+			}
+		},
+		{
+			"path" : "pages/cart/SetttleSuccess",
+			"style" : 
+			{
+				"navigationBarTitleText" : "支付成功"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabBarImage/shouye.png",
+				"selectedIconPath": "static/tabBarImage/shouye-active.png",
+				"text": "首页"
+			}, {
+				"pagePath": "pages/cate/cate",
+				"iconPath": "static/tabBarImage/fenlei.png",
+				"selectedIconPath": "static/tabBarImage/fenlei-active.png",
+				"text": "分类"
+			},
+			{
+				"pagePath": "pages/cart/cart",
+				"iconPath": "static/tabBarImage/gouwuche.png",
+				"selectedIconPath": "static/tabBarImage/gouwuche-active.png",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"iconPath": "static/tabBarImage/wode.png",
+				"selectedIconPath": "static/tabBarImage/wode-active.png",
+				"text": "我的"
+			}
+		]
+	},
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"h-(.*)": "@/components/h-$1/h-$1.vue"
+		}
+	}
+}

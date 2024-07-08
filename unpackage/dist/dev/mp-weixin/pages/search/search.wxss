@@ -1,0 +1,26 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+#search .slot-image.data-v-c10c040c {
+  height: 100rpx;
+  width: 100rpx;
+}
+#search .info.data-v-c10c040c {
+  margin-left: 20rpx;
+}
+#search .info .g-title.data-v-c10c040c {
+  font-size: 30rpx;
+}
+#search .info .g-desc.data-v-c10c040c {
+  font-size: 25rpx;
+  color: #8b8b8b;
+}
+#search .info .g-price.data-v-c10c040c {
+  font-weight: bold;
+  font-size: 28rpx;
+  color: #ff5500;
+}

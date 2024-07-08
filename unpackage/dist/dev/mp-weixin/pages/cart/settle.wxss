@@ -1,0 +1,94 @@
+/* 需要放到文件最上面 */
+/* 水平间距 */
+/* 水平间距 */
+/*
+ 以下变量是默认值，如不需要修改可以不用给下面的变量重新赋值
+ */
+/* 水平间距 */
+#settle .address.data-v-1f893c51 {
+  height: 90px;
+  line-height: 90px;
+  background-color: #fff;
+  padding-left: 20rpx;
+}
+#settle .address .recipient-pos.data-v-1f893c51 {
+  height: 40rpx;
+  width: 40rpx;
+}
+#settle .address .recipient-info.data-v-1f893c51 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 40rpx;
+}
+#settle .address .recipient-info .address-name.data-v-1f893c51 {
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+#settle .address .recipient-info .user.data-v-1f893c51 {
+  height: 50rpx;
+  line-height: 50rpx;
+  color: #8b8b8b;
+  font-size: 25rpx;
+}
+#settle .cart .good.data-v-1f893c51 {
+  width: 750rpx;
+  box-sizing: border-box;
+  display: flex;
+  padding: 10px 5px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fff;
+}
+#settle .cart .good .left-good.data-v-1f893c51 {
+  margin-right: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+#settle .cart .good .left-good .goods-pic.data-v-1f893c51 {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+#settle .cart .good .right-good.data-v-1f893c51 {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#settle .cart .good .right-good .goods-name.data-v-1f893c51 {
+  font-size: 16px;
+  margin-top: 10rpx;
+}
+#settle .cart .good .right-good .goods-info-box.data-v-1f893c51 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22rpx;
+}
+#settle .cart .good .right-good .goods-info-box .goods-price.data-v-1f893c51 {
+  color: #c00000;
+  font-size: 16px;
+}
+.confirm-button.data-v-1f893c51 {
+  position: fixed;
+  width: 100%;
+  bottom: 10rpx;
+  background-color: #fff;
+  line-height: 74rpx;
+}
+.confirm-button button.data-v-1f893c51 {
+  color: #fff;
+  background-color: #55aa7f;
+  height: 74rpx;
+  line-height: 74rpx;
+  margin: 0 10rpx;
+  border-radius: 35rpx;
+}
+.confirm-button .order-price.data-v-1f893c51 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
