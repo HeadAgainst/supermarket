@@ -207,7 +207,7 @@
 			line-height: 74upx;
 			margin: 0 10upx;
 			border-radius: 35upx;
-		}
+		} 
 
 		.order-price {
 			display: flex;
