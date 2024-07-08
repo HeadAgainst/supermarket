@@ -25,7 +25,7 @@ const store = createStore({
 			num:1,
 			price:10,
 			imageSrc:"../../static/goodsImage/pingguo.jpg",
-			state:false,
+			state:true,
 			text:"苹果"
 		}],
 		mapGoodNum:{
@@ -132,7 +132,7 @@ const store = createStore({
 					num:num,
 					price:price,
 					imageSrc:imageSrc,
-					state:false,
+					state:true,
 					text:text
 				})
 				this.state.mapGoodNum[id] = {};
@@ -162,7 +162,9 @@ const store = createStore({
 		totalPrice(state){
 			let total = 0;
 			for(let i = 0; i < state.cart.length; i++){
-				total += state.cart[i].num*state.cart[i].price;
+				if(state.cart[i].state == true){
+					total += state.cart[i].num*state.cart[i].price;
+				}
 			}
 			return total;
 		},

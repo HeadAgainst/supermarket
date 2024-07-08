@@ -9,13 +9,17 @@ const _sfc_main = {
           backgroundColor: "#dd524d"
         }
       }],
-      selectAll: false,
+      selectAll: true,
       value: 1
     };
   },
   computed: {
     ...common_vendor.mapState(["cart", "isFromSettleSuccess"]),
-    ...common_vendor.mapGetters(["totalPrice", "totalNum"])
+    ...common_vendor.mapGetters(["totalPrice", "totalNum"]),
+    radioCollect() {
+      const fil = this.cart.filter((item) => item.state == true);
+      return fil.length;
+    }
   },
   onShow() {
     console.log(this.isFromSettleSuccess);
@@ -25,6 +29,15 @@ const _sfc_main = {
       });
     }
     this.changeIsFromSettleSuccess(false);
+  },
+  watch: {
+    radioCollect(oldValue) {
+      if (oldValue == 0) {
+        this.selectAll = false;
+      } else if (oldValue == this.cart.length) {
+        this.selectAll = true;
+      }
+    }
   },
   methods: {
     ...common_vendor.mapMutations(["changeCartState", "deleteOneGood", "addOneGood", "changeIsFromSettleSuccess"]),

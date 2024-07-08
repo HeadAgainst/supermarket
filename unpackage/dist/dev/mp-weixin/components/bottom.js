@@ -14,15 +14,9 @@ const _sfc_main = {
   },
   computed: {
     ...common_vendor.mapState(["cart"]),
+    ...common_vendor.mapGetters(["totalPrice"]),
     totalNum() {
       return this.cart.length;
-    },
-    totalPrice() {
-      let total = 0;
-      for (let i = 0; i < this.cart.length; i++) {
-        total += this.cart[i].num * this.cart[i].price;
-      }
-      return total;
     },
     dynamicWidth() {
       let i = 30 + (String(this.totalNum).length - 1) * 15;
@@ -57,7 +51,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     f: common_vendor.p({
       span: 4
     }),
-    g: common_vendor.t($options.totalPrice),
+    g: common_vendor.t(_ctx.totalPrice),
     h: common_vendor.t($options.totalNum),
     i: common_vendor.p({
       span: 12

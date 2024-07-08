@@ -26,7 +26,7 @@
 </template>
 
 <script>
-	import {mapState, mapMutations} from 'vuex'
+	import {mapState, mapMutations,mapGetters} from 'vuex'
 	export default{
 		data(){
 			return{
@@ -43,15 +43,9 @@
 		},
 		computed:{
 			...mapState(['cart']),
+			...mapGetters(['totalPrice']),
 			totalNum(){
 				return this.cart.length;
-			},
-			totalPrice(){
-				let total = 0;
-				for(let i = 0; i < this.cart.length; i++){
-					total += this.cart[i].num*this.cart[i].price;
-				}
-				return total;
 			},
 			dynamicWidth(){
 				let i = 30+(String(this.totalNum).length-1)*15;

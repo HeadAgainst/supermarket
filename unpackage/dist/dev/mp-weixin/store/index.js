@@ -26,7 +26,7 @@ const store = common_vendor.createStore({
       num: 1,
       price: 10,
       imageSrc: "../../static/goodsImage/pingguo.jpg",
-      state: false,
+      state: true,
       text: "苹果"
     }],
     mapGoodNum: {
@@ -134,7 +134,7 @@ const store = common_vendor.createStore({
           num,
           price,
           imageSrc,
-          state: false,
+          state: true,
           text
         });
         this.state.mapGoodNum[id] = {};
@@ -164,7 +164,9 @@ const store = common_vendor.createStore({
     totalPrice(state) {
       let total = 0;
       for (let i = 0; i < state.cart.length; i++) {
-        total += state.cart[i].num * state.cart[i].price;
+        if (state.cart[i].state == true) {
+          total += state.cart[i].num * state.cart[i].price;
+        }
       }
       return total;
     },

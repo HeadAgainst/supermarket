@@ -71,13 +71,17 @@
 						backgroundColor: '#dd524d'
 					}
 				}],
-				selectAll: false,
+				selectAll: true,
 				value: 1,
 			}
 		},
 		computed: {
 			...mapState(['cart', 'isFromSettleSuccess']),
-			...mapGetters(['totalPrice', 'totalNum'])
+			...mapGetters(['totalPrice', 'totalNum']),
+			radioCollect(){
+				const fil = this.cart.filter(item => item.state ==true);
+				return fil.length;
+			}
 		},
 		onShow(){
 			console.log(this.isFromSettleSuccess);
@@ -87,6 +91,15 @@
 				})
 			}
 			this.changeIsFromSettleSuccess(false);
+		},
+		watch:{
+			radioCollect(oldValue){
+				if(oldValue == 0){
+					this.selectAll = false;
+				}else if(oldValue == this.cart.length){
+					this.selectAll = true;
+				}
+			}
 		},
 		methods: {
 			...mapMutations(['changeCartState', 'deleteOneGood', 'addOneGood', 'changeIsFromSettleSuccess']),
