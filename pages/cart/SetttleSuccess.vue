@@ -29,7 +29,7 @@
 			button{
 				width: 100%;
 				border-radius: 20px;
-				background-color: #ff5500;
+				background-color: #c00000;
 				color: #fff;
 				margin-top: 20upx;
 			}
