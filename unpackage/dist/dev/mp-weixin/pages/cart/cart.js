@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-require("../../eventBus.js");
 const _sfc_main = {
   data() {
     return {
@@ -117,5 +116,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     h: common_vendor.o((...args) => $options.settlement && $options.settlement(...args))
   });
 }
-const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c91e7611"], ["__file", "E:/Downloads/HBuildX/workplace/demo3/pages/cart/cart.vue"]]);
+const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-c91e7611"], ["__file", "E:/Downloads/HBuildX/workplace/supermarket/pages/cart/cart.vue"]]);
 wx.createPage(MiniProgramPage);

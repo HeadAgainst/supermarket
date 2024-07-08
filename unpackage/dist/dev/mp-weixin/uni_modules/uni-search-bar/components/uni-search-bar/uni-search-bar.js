@@ -189,5 +189,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     v: common_vendor.o((...args) => $options.cancel && $options.cancel(...args))
   } : {});
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "E:/Downloads/HBuildX/workplace/demo3/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "E:/Downloads/HBuildX/workplace/supermarket/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar.vue"]]);
 wx.createComponent(Component);

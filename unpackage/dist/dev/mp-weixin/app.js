@@ -12,6 +12,14 @@ if (!Math) {
   "./pages/search/search.js";
   "./pages/cart/settle.js";
   "./pages/cart/SetttleSuccess.js";
+  "./pages/my/my-love.js";
+  "./pages/my/my-argue.js";
+  "./pages/my/argue-list.js";
+  "./pages/my/my-camera.js";
+  "./pages/my/my-bagage.js";
+  "./pages/my/my-receive.js";
+  "./pages/my/my-setting.js";
+  "./pages/my/receive-list.js";
 }
 const _sfc_main = {
   onLaunch: function() {
@@ -25,7 +33,7 @@ const _sfc_main = {
     console.log("App Hide");
   }
 };
-const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "E:/Downloads/HBuildX/workplace/demo3/App.vue"]]);
+const App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "E:/Downloads/HBuildX/workplace/supermarket/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   app.config.globalProperties.$api = api_index.api;

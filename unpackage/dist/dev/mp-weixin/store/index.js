@@ -1,6 +1,10 @@
 "use strict";
 const common_vendor = require("../common/vendor.js");
+const store_user = require("./user.js");
 const store = common_vendor.createStore({
+  modules: {
+    m_user: store_user.moduleUser
+  },
   state: {
     //存放状态
     "token": "",

@@ -1,6 +1,10 @@
 // 页面路径：store/index.js
 import { createStore } from 'vuex'
+import moduleUser from '@/store/user.js';
 const store = createStore({
+	modules: {
+	    m_user: moduleUser,
+	},
 	state:{//存放状态
 		"token":"",
 		"username":"foo",

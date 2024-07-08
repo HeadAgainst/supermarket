@@ -8,7 +8,7 @@
 #success-pay .buttons button.data-v-6940d9e8 {
   width: 100%;
   border-radius: 20px;
-  background-color: #ff5500;
+  background-color: #c00000;
   color: #fff;
   margin-top: 20rpx;
 }

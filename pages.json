@@ -60,6 +60,60 @@
 			{
 				"navigationBarTitleText" : "支付成功"
 			}
+		},
+		{
+			"path": "pages/my/my-love",
+			"style": {
+				"navigationBarTitleText": "用户登录"
+			}
+		},
+		{
+			"path": "pages/my/my-argue",
+			"style": {
+				"navigationBarTitleText": ""
+		
+			}
+		},
+		{
+			"path": "pages/my/argue-list",
+			"style": {
+				"navigationBarTitleText": "我的评价"
+		
+			}
+		},
+		{
+			"path": "pages/my/my-camera",
+			"style": {
+				"navigationBarTitleText": ""
+		
+			}
+		},
+		{
+			"path": "pages/my/my-bagage",
+			"style": {
+				"navigationBarTitleText": "用户登录"
+			}
+		},
+		{
+			"path": "pages/my/my-receive",
+			"style": {
+				"navigationBarTitleText": "我的地址"
+		
+			}
+		},
+		{
+			"path": "pages/my/my-setting",
+			"style": {
+				"navigationBarTitleText": "个人设置"
+		
+			}
+		},
+		{
+			"path": "pages/my/receive-list",
+			"style": {
+				"navigationBarTitleText": "编辑地址"
+		
+			}
 		}
 	],
 	"globalStyle": {

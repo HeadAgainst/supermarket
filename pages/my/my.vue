@@ -1,34 +1,30 @@
 <template>
-	<view>
-		我的{{$store.state.username}}
-	</view>
+  <view class="my-container" ><!-- 用户未登录时，显示登录组件 -->
+    <my-login v-if="!token"></my-login>
+    <!-- 用户登录后，显示用户信息组件 -->
+    <my-userinfo v-else></my-userinfo>
+  </view>
 </template>
 
 <script>
-	import {mapMutations, mapState} from 'vuex'
-	export default {
-		data() {
-			return {
-				
-			}
-		},
-		methods: {
-			...mapMutations(['changeIsFromSettleSuccess'])
-		},
-		computed:{
-			...mapState(['isFromSettleSuccess']),
-		},
-		onShow(){
-			if(this.isFromSettleSuccess){
-				uni.removeTabBarBadge({
-					index:2
-				})
-			}
-			this.changeIsFromSettleSuccess(false);
-		}
-	}
+  import {
+    mapState
+  } from 'vuex'
+  export default {
+    data() {
+      return {
+
+      };
+    },
+    computed: {
+      ...mapState('m_user', ['token'])
+    }
+  }
 </script>
 
-<style>
-
+<style lang="scss">
+  page,
+  .my-container {
+    height: 100%;
+  }
 </style>

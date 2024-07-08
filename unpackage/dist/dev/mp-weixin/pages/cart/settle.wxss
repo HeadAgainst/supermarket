@@ -81,7 +81,7 @@
 }
 .confirm-button button.data-v-1f893c51 {
   color: #fff;
-  background-color: #55aa7f;
+  background-color: #c00000;
   height: 74rpx;
   line-height: 74rpx;
   margin: 0 10rpx;

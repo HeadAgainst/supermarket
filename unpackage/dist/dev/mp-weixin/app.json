@@ -7,7 +7,15 @@
     "pages/goods/detail",
     "pages/search/search",
     "pages/cart/settle",
-    "pages/cart/SetttleSuccess"
+    "pages/cart/SetttleSuccess",
+    "pages/my/my-love",
+    "pages/my/my-argue",
+    "pages/my/argue-list",
+    "pages/my/my-camera",
+    "pages/my/my-bagage",
+    "pages/my/my-receive",
+    "pages/my/my-setting",
+    "pages/my/receive-list"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -68,5 +68,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   };
 }
-const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-020da843"], ["__file", "E:/Downloads/HBuildX/workplace/demo3/components/bottom.vue"]]);
+const Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-020da843"], ["__file", "E:/Downloads/HBuildX/workplace/supermarket/components/bottom.vue"]]);
 wx.createComponent(Component);
