@@ -1,6 +1,6 @@
 // 封装请求体
 const http = {
-	baseUrl : "http://hdu.frei.fun",
+	baseUrl : "https://hdu.frei.fun",
 	request(config){
 		config = beforeRequest(config);
 		config.url = this.baseUrl+config.url;
@@ -20,7 +20,7 @@ const http = {
 		return this.request({
 			url:url,
 			data:data,
-			auth:auth,
+			auth:true,
 			method:"GET"
 		})
 	},
@@ -39,7 +39,7 @@ const http = {
 			method:"DELETE"
 		})
 	},
-	post(url, data, auth){
+	put(url, data, auth){
 		return this.request({
 			url:url,
 			data:data,
