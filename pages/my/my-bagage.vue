@@ -94,6 +94,11 @@ export default {
       const minutes = String(now.getMinutes()).padStart(2, '0');
       return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
+  },
+  onLoad(){
+  	this.$api.user.getOrders('1').then(res=>{
+  		console.log('Response received',res);
+  	})
   }
 }
 </script>
