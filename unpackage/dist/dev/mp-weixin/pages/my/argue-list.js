@@ -3,24 +3,53 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      comments: [
-        {
-          src: "https://example.com/avatar1.jpg",
-          nickname: "goods1",
-          time: "2024-07-06",
-          content: "Great product, highly recommended!"
-        }
-      ]
+      user_id: "1",
+      reviews: []
     };
   },
+  created() {
+    this.loadReviews();
+  },
   methods: {
-    navigateToDetail(comment) {
+    async loadReviews() {
+      const user_id = this.user_id;
+      try {
+        const response = await this.$api.user.getOrders(user_id);
+        console.log("API response:", response);
+        const orders = response.data || response;
+        if (Array.isArray(orders)) {
+          const submittedOrders = orders.filter((order) => order.status === "已提交");
+          const reviewPromises = submittedOrders.map(async (order) => {
+            if (order.review_id) {
+              const imgResponse = await this.$api.user.getReviewimgURl(order.review_id);
+              if (imgResponse && Array.isArray(imgResponse.data.img_urls) && imgResponse.data.img_urls.length > 0) {
+                const imgCode = imgResponse.data.img_urls[0].url;
+                order.src = `http://hdu.frei.fun/reviews_img/${order.review_id}/${imgCode}` || "";
+              } else {
+                order.src = "";
+              }
+            } else {
+              order.src = "";
+            }
+            return order;
+          });
+          const reviews = await Promise.all(reviewPromises);
+          this.reviews = reviews;
+        } else {
+          throw new Error("Invalid API response format");
+        }
+      } catch (error) {
+        console.error("Error loading reviews:", error);
+      }
+    },
+    navigateToDetail(review) {
+      console.log("review", this.review);
       common_vendor.index.navigateTo({
-        url: `/pages/my/my-argue?nickname=${encodeURIComponent(comment.nickname)}&content=${encodeURIComponent(comment.content)}&src=${encodeURIComponent(comment.src)}`,
+        url: `/pages/my/my-argue?order_id=${encodeURIComponent(review.order_id)}&comment=${encodeURIComponent(review.comment)}&src=${encodeURIComponent(review.src)}&review_id=${encodeURIComponent(review.review_id)}`,
         events: {
-          acceptComment(data) {
-            comment.content = data.comment;
-            comment.src = data.src;
+          acceptreview(data) {
+            review.comment = data.review;
+            review.src = data.src;
           }
         },
         fail(err) {
@@ -32,14 +61,14 @@ const _sfc_main = {
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return {
-    a: common_vendor.f($data.comments, (comment, index, i0) => {
+    a: common_vendor.f($data.reviews, (review, index, i0) => {
       return {
-        a: comment.src,
-        b: common_vendor.t(comment.nickname),
-        c: common_vendor.t(comment.time),
-        d: common_vendor.t(comment.content),
+        a: review.src,
+        b: common_vendor.t(review.order_id),
+        c: common_vendor.t(review.review_date),
+        d: common_vendor.t(review.comment),
         e: index,
-        f: common_vendor.o(($event) => $options.navigateToDetail(comment), index)
+        f: common_vendor.o(($event) => $options.navigateToDetail(review), index)
       };
     })
   };

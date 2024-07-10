@@ -3,7 +3,7 @@
     padding: 10px;
     background-color: #f8f8f8;
 }
-.comment {
+.review {
     display: flex;
     padding: 20px;
     margin-bottom: 20px;
@@ -18,23 +18,23 @@
     border-radius: 50%;
     margin-right: 10px;
 }
-.comment-body {
+.review-body {
     flex: 1;
 }
-.comment-header {
+.review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
 }
-.nickname {
+.order_id {
     font-weight: bold;
     color: #333;
 }
-.time {
+.review_date {
     color: #999;
     font-size: 12px;
 }
-.comment-content {
+.review-comment {
     color: #666;
 }

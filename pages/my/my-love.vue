@@ -63,12 +63,12 @@
 		.goods {
 			.good {
 				margin: 15upx;
-				height: 220upx;
+				height: 300upx;
 				background-color: #fff;
 				border-radius: 10upx;
 				image {
-					height: 220upx;
-					width: 220upx;
+					height: 250upx;
+					width: 250upx;
 				}
 				.info {
 					.g-title {
@@ -77,12 +77,12 @@
 					}
 		
 					.g-desc {
-						margin-top: 20upx;
+						margin-top: 10upx;
 						color: #8b8b8b;
 					}
 		
 					.g-price {
-						margin-top: 30upx;
+						margin-top: 10upx;
 						font-weight: bold;
 						color: #ff5500;
 					}

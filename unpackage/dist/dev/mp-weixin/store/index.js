@@ -12,7 +12,8 @@ const store = common_vendor.createStore({
     "username": "foo",
     isFromSettleSuccess: false,
     isChangeInDetail: true,
-    collectionBag: [{
+    collectionBag: [
+      // {
       // imageSrc: "../../static/goodsImage/pingguo.jpg",
       // text: "苹果",
       // remaining: "10",
@@ -22,7 +23,8 @@ const store = common_vendor.createStore({
       // brand:"花果山",
       // serve:"快速配货",
       // category:"水果蔬菜"
-    }],
+      // },
+    ],
     "cart": [
       // 	{
       // 	id:"1",
