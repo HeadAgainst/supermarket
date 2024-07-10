@@ -119,6 +119,17 @@
 				})
 			},
 			submit() {
+				// this.$api.order.createAddress({
+				// 	user_id:"1",
+				// 	phone:this.addressInfo.phone,
+				// 	address_line1:this.addressInfo.detail,
+				// 	address_line2:"",
+				// 	name:this.addressInfo.name
+				// })
+				// this.$api.order.getAdress()
+				// .then(res=>{
+				// 	console.log("地址信息",res);
+				// })
 				if(this.addressInfo == ""){
 					uni.showToast({
 						title:"请选择地址",

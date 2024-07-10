@@ -16,5 +16,8 @@ export default{
 	},
 	getOneGood(productId){
 		return http.get(`/products/${productId}`);
+	},
+	sendPic(data){
+		return http.post("/reviews_img/28", data)
 	}
 }

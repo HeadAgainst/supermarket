@@ -7,5 +7,8 @@ export default {
 	},
 	getAdress(){
 		return http.get("/users/1/addresses");
+	},
+	createAddress(data){
+		return http.post("/addresses", data);
 	}
 }

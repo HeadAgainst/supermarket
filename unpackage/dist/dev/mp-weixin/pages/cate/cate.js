@@ -107,8 +107,10 @@ const _sfc_main = {
   onPageScroll(e) {
     this.scrollTop = e.scrollTop;
     if (e.scrollTop > this.page * 646) {
-      this.page += 1;
-      this.loadMoreGoods();
+      if (this.page * 10 < this.readyGoods.length) {
+        this.page += 1;
+        this.loadMoreGoods();
+      }
     }
     this.bottomView = false;
   },

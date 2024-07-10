@@ -15,6 +15,9 @@ const goods = {
   },
   getOneGood(productId) {
     return api_request.http.get(`/products/${productId}`);
+  },
+  sendPic(data) {
+    return api_request.http.post("/reviews_img/28", data);
   }
 };
 exports.goods = goods;

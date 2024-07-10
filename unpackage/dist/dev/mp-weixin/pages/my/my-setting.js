@@ -23,7 +23,7 @@ const _sfc_main = {
         this.updateAddress({});
       }
       common_vendor.index.switchTab({
-        url: "/pages/home/home"
+        url: "/pages/index/index"
       });
     }
   }

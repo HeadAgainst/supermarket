@@ -6,6 +6,9 @@ const order = {
   },
   getAdress() {
     return api_request.http.get("/users/1/addresses");
+  },
+  createAddress(data) {
+    return api_request.http.post("/addresses", data);
   }
 };
 exports.order = order;
