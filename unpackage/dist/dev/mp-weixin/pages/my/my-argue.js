@@ -8,7 +8,9 @@ const _sfc_main = common_vendor.defineComponent({
       src: "",
       newComment: "",
       review_id: "",
-      comments: []
+      comments: [{
+        photo: ""
+      }]
       // 确保这里是一个空数组，而不是null
     };
   },
@@ -23,7 +25,11 @@ const _sfc_main = common_vendor.defineComponent({
       console.log("Received order_id:", this.order_id);
       console.log("Received comment:", this.comment);
       console.log("Received review_id:", this.review_id);
-      common_vendor.index.setStorageSync("commentData", { order_id: this.order_id, comment: this.comment, review_id: this.review_id });
+      common_vendor.index.setStorageSync("commentData", {
+        order_id: this.order_id,
+        comment: this.comment,
+        review_id: this.review_id
+      });
     } else {
       const commentData = common_vendor.index.getStorageSync("commentData");
       if (commentData) {
@@ -35,43 +41,24 @@ const _sfc_main = common_vendor.defineComponent({
       }
     }
     if (!this.comments || this.comments.length === 0) {
-      this.comments = [{ photo: "" }];
+      this.comments = [{
+        photo: ""
+      }];
     }
   },
   methods: {
     navigateToCamera(comment) {
-      const self = this;
       common_vendor.index.navigateTo({
         url: "/pages/my/my-camera",
         events: {
-          acceptCamera(data) {
+          acceptCamera: (data) => {
             comment.photo = data.src;
             console.log("Photo taken, path:", comment.photo);
-            self.convertToBase64AndSubmit(comment.photo);
+            setTimeout(() => {
+            }, 1e3);
           }
-        },
-        fail(err) {
-          console.error("Navigation failed:", err);
         }
       });
-    },
-    async convertToBase64AndSubmit(filePath) {
-      const res = await new Promise((resolve, reject) => {
-        common_vendor.index.getFileSystemManager().readFile({
-          filePath,
-          encoding: "base64",
-          success: resolve,
-          fail: reject
-        });
-      });
-      const base64Data = `data:image/jpeg;base64,${res.data}`;
-      try {
-        const reviewId = this.review_id;
-        const response = await this.$api.user.postReviewimg(reviewId, base64Data);
-        console.log("Image submitted successfully:", response);
-      } catch (error) {
-        console.error("Error submitting image:", error);
-      }
     },
     async submitComment() {
       if (this.newComment.trim() !== "") {
@@ -86,18 +73,70 @@ const _sfc_main = common_vendor.defineComponent({
           });
           console.log("Comment submitted successfully:", response);
           this.review_id = response.data.review_id;
-          this.navigateToCamera({ photo: "" });
+          for (let comment of this.comments) {
+            if (comment.photo) {
+              console.log("comment.photo", comment.photo);
+              await this.convertToBase64AndSubmit(comment.photo, this.review_id);
+            }
+          }
           common_vendor.index.navigateBack({
             delta: 1,
             success: () => {
               const eventChannel = this.getOpenerEventChannel();
-              eventChannel.emit("acceptreview", { review: this.newComment, src: this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : "" });
+              eventChannel.emit("acceptreview", {
+                review: this.newComment,
+                src: this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : "",
+                review_id: this.review_id
+              });
             }
           });
         } catch (error) {
           console.error("Error submitting comment:", error);
         }
       }
+    },
+    async convertToBase64AndSubmit(filePath, reviewid) {
+      common_vendor.wx$1.downloadFile({
+        url: filePath,
+        success: (res) => {
+          if (res.statusCode === 200) {
+            res.tempFilePath;
+            common_vendor.wx$1.chooseMedia({
+              count: 9,
+              mediaType: ["image", "video"],
+              sourceType: ["album", "camera"],
+              maxDuration: 30,
+              camera: "back",
+              success(res2) {
+                const tempFilePath = res2.tempFiles[0].tempFilePath;
+                console.log(res2.tempFiles[0].tempFilePath);
+                console.log(res2.tempFiles[0].size);
+                common_vendor.index.uploadFile({
+                  url: "https://hdu.frei.fun/reviews_img/28",
+                  // 替换为你的服务器 URL
+                  filePath: tempFilePath,
+                  name: "file",
+                  // 与服务器端接收的字段名一致
+                  header: {
+                    "Content-Type": "multipart/form-data"
+                  },
+                  success: (res3) => {
+                    console.log("上传成功:", res3);
+                    common_vendor.index.hideLoading();
+                  },
+                  fail: (err) => {
+                    console.error("上传失败:", err);
+                    common_vendor.index.hideLoading();
+                  }
+                });
+              }
+            });
+          }
+        },
+        fail: (err) => {
+          console.error("下载失败:", err);
+        }
+      });
     }
   }
 });
@@ -106,12 +145,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     a: common_vendor.t(_ctx.order_id),
     b: common_vendor.f(_ctx.comments, (comment, index, i0) => {
       return common_vendor.e({
-        a: comment.photo
-      }, comment.photo ? {
+        a: common_vendor.o(($event) => _ctx.navigateToCamera(comment), index),
         b: comment.photo
+      }, comment.photo ? {
+        c: comment.photo
       } : {}, {
-        c: index,
-        d: common_vendor.o(($event) => _ctx.navigateToCamera(comment), index)
+        d: index
       });
     }),
     c: _ctx.newComment,

@@ -7,24 +7,24 @@
 /* 水平间距 */
 #love .goods .good.data-v-bd37311f {
   margin: 15rpx;
-  height: 300rpx;
+  height: 220rpx;
   background-color: #fff;
   border-radius: 10rpx;
 }
 #love .goods .good image.data-v-bd37311f {
-  height: 250rpx;
-  width: 250rpx;
+  height: 220rpx;
+  width: 220rpx;
 }
 #love .goods .good .info .g-title.data-v-bd37311f {
   margin-top: 20rpx;
   font-size: 30rpx;
 }
 #love .goods .good .info .g-desc.data-v-bd37311f {
-  margin-top: 10rpx;
+  margin-top: 20rpx;
   color: #8b8b8b;
 }
 #love .goods .good .info .g-price.data-v-bd37311f {
-  margin-top: 10rpx;
+  margin-top: 30rpx;
   font-weight: bold;
   color: #ff5500;
 }
