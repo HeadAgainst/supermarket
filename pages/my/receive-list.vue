@@ -1,22 +1,22 @@
 <template>
   <view class="container">
     <view class="input-box">
-    <uni-list>
-      <uni-list-item title="姓名" />
-    </uni-list>
+      <uni-list>
+        <uni-list-item title="姓名" />
+      </uni-list>
       <input v-model="name" placeholder="请输入姓名" />
     </view>
     <view class="input-box">
-    <uni-list>
-      <uni-list-item title="电话" />
-    </uni-list>
+      <uni-list>
+        <uni-list-item title="电话" />
+      </uni-list>
       <input v-model="phone" placeholder="请输入电话" />
     </view>
     <view class="input-box">
       <uni-list>
-          <uni-list-item showArrow  title="地址" right-text="点击获取地址" :to="'receive-get'"  @click="getAddressList" />
-    </uni-list>
-      <input v-model="detail" placeholder="请输入地址" />
+        <uni-list-item showArrow title="地址" right-text="点击获取地址" :to="'receive-get'" @click="getAddressList" />
+      </uni-list>
+      <input v-model="address_line1" placeholder="请输入地址" />
     </view>
     <button @click="saveAddress">保存</button>
   </view>
@@ -27,9 +27,11 @@ export default {
   data() {
     return {
       index: null,
+      user_id: '1', // 假设用户ID是1
       name: '',
       phone: '',
-      detail: ''
+      address_line1: '',
+      address_line2: '' // 新增字段 address_line2
     };
   },
   onLoad(options) {
@@ -37,29 +39,45 @@ export default {
       this.index = parseInt(options.index);
       this.name = decodeURIComponent(options.name);
       this.phone = decodeURIComponent(options.phone);
-      this.detail = decodeURIComponent(options.detail);
+      this.address_line1 = decodeURIComponent(options.detail);
     }
   },
   methods: {
     saveAddress() {
       const updatedAddress = {
-        name: this.name,
+		name:this.name,
         phone: this.phone,
-        detail: this.detail
+        detail: this.address_line1
       };
-      const eventChannel = this.getOpenerEventChannel();
-      eventChannel.emit('updateAddress', { index: this.index, address: updatedAddress });
-      uni.navigateBack();
+	  const data={
+		  name:this.name,
+		  user_id:this.user_id,
+		  phone:this.phone,
+		  address_line1:this.address_line1,
+		  address_line2:null
+	  }
+      this.$api.user.post(data).then(res => {
+		console.log(data);
+        const eventChannel = this.getOpenerEventChannel();
+        eventChannel.emit('updateAddress', { index: this.index, address: updatedAddress });
+		setTimeout(() => {
+		      uni.navigateBack();
+		    }, 2000);
+        
+      }).catch(error => {
+        console.error('Error saving address:', error);
+        // 这里可以添加用户友好的错误提示
+      });
     },
-        getAddressList(){
-                wx.chooseAddress({
-                  success:(res)=> {
-                      this.name=res.userName;
-                      this.phone=res.telNumber;
-                      this.detail=res.provinceName+res.cityName+res.countyName+res.detailInfo
-                  }
-            })
+    getAddressList() {
+      wx.chooseAddress({
+        success: (res) => {
+          this.name = res.userName;
+          this.phone = res.telNumber;
+          this.address_line1 = res.provinceName + res.cityName + res.countyName + res.detailInfo;
         }
+      });
+    }
   }
 };
 </script>

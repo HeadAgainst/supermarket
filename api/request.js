@@ -24,7 +24,7 @@ const http = {
 		return this.request({
 			url:url,
 			data:data,
-			auth:auth,
+			auth:true,
 			method:"GET"
 		})
 	},
@@ -43,6 +43,7 @@ const http = {
 			method:"DELETE"
 		})
 	},
+<<<<<<< HEAD
 	// post(url, data, auth){
 	// 	return this.request({
 	// 		url:url,
@@ -51,6 +52,16 @@ const http = {
 	// 		method:"PUT"
 	// 	})
 	// },
+=======
+	put(url, data, auth){
+		return this.request({
+			url:url,
+			data:data,
+			auth:auth,
+			method:"PUT"
+		})
+	},
+>>>>>>> f3419f8b2999523472bb190013d49fd264a4d320
 } 
 // 请求拦截器
 const beforeRequest = (config) => {
