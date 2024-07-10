@@ -1,11 +1,11 @@
 <template>
     <view class="container">
         <view class="comment-detail">
-            <text class="nickname">{{ nickname }}</text>
+            <text class="nickname">{{ order_id }}</text>
         </view>
         <view class="comment" v-for="(comment, index) in comments" :key="index" @click="navigateToCamera(comment)">
             <button type="primary">拍照上传</button>
-            <image :src="comment.photo" mode="aspectFill" class="top-centered-image"></image>
+            <image v-if="comment.photo" :src="comment.photo" mode="aspectFill" class="top-centered-image"></image>
         </view>
         <view class="input-box">
             <textarea v-model="newComment" placeholder="请输入您的评论"></textarea>
@@ -20,67 +20,54 @@ import { defineComponent } from 'vue';
 export default defineComponent({
     data() {
         return {
-            nickname: '',
-            content: '',
+            order_id: '',
+            comment: '',
             src: '',
             newComment: '',
-            comments: [
-                {
-                    photo: '',
-                }
-            ]
+            review_id: '',
+            comments: []  // 确保这里是一个空数组，而不是null
         };
-    },
+    }
+,
     onLoad(options) {
         if (options.src) {
             this.src = decodeURIComponent(options.src);
         }
-        if (options.nickname && options.content) {
-            this.nickname = decodeURIComponent(options.nickname);
-            this.content = decodeURIComponent(options.content);
-            console.log('Received nickname:', this.nickname);
-            console.log('Received content:', this.content);
+        if (options.order_id && options.comment && options.review_id) {
+            this.order_id = decodeURIComponent(options.order_id);
+            this.comment = decodeURIComponent(options.comment);
+            this.review_id = decodeURIComponent(options.review_id);
+            console.log('Received order_id:', this.order_id);
+            console.log('Received comment:', this.comment);
+            console.log('Received review_id:', this.review_id);
             // 将评论数据保存到本地存储
-            uni.setStorageSync('commentData', { nickname: this.nickname, content: this.content });
+            uni.setStorageSync('commentData', { order_id: this.order_id, comment: this.comment, review_id: this.review_id });
         } else {
             // 从本地存储获取评论数据
             const commentData = uni.getStorageSync('commentData');
             if (commentData) {
-                this.nickname = commentData.nickname;
-                this.content = commentData.content;
+                this.order_id = commentData.order_id;
+                this.comment = commentData.comment;
+                this.review_id = commentData.review_id;
             } else {
-                console.log('No nickname or content parameter received');
+                console.log('No order_id or comment parameter received');
             }
+        }
+        // 确保 comments 数组被正确初始化
+        if (!this.comments || this.comments.length === 0) {
+            this.comments = [{ photo: '' }];
         }
     },
     methods: {
-        submitComment() {
-            if (this.newComment.trim() !== '') {
-                // 获取最新的 comment.photo 值
-                const latestPhoto = this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : '';
-
-                uni.navigateBack({
-                    delta: 1,
-                    success: () => {
-                        const eventChannel = this.getOpenerEventChannel();
-                        eventChannel.emit('acceptComment', { comment: this.newComment, src: latestPhoto });
-                    }
-                });
-            }
-        },
         navigateToCamera(comment) {
             const self = this;
             uni.navigateTo({
-                url: `/pages/my/my-camera`,
+                url: "/pages/my/my-camera",
                 events: {
                     acceptCamera(data) {
                         comment.photo = data.src;
                         console.log('Photo taken, path:', comment.photo);
-                        setTimeout(() => {
-                            /*uni.navigateTo({
-                                url: "/pages/my/my-argue?src=" + encodeURIComponent(this.src)
-                            });*/
-                        }, 1000);
+                        self.convertToBase64AndSubmit(comment.photo);
                     }
                 },
                 fail(err) {
@@ -88,10 +75,66 @@ export default defineComponent({
                 }
             });
         },
-        error(e) {
-            console.log(e.detail);
-        }
+        async convertToBase64AndSubmit(filePath) {
+            // 获取图片文件内容
+            const res = await new Promise((resolve, reject) => {
+                uni.getFileSystemManager().readFile({
+                    filePath: filePath,
+                    encoding: 'base64',
+                    success: resolve,
+                    fail: reject
+                });
+            });
+    
+            const base64Data = `data:image/jpeg;base64,${res.data}`;
+    
+            try {
+                // 获取最新的 review_id
+                const reviewId = this.review_id; // 你可能需要根据实际情况调整这行代码
+    
+                // 上传图片到服务器
+                const response = await this.$api.user.postReviewimg(reviewId, base64Data);
+                console.log('Image submitted successfully:', response);
+            } catch (error) {
+                console.error('Error submitting image:', error);
+            }
+        },
+		 async submitComment() {
+		        if (this.newComment.trim() !== '') {
+		            try {
+		                // 先删除原来的评论
+		                if (this.review_id) {
+		                    await this.$api.user.deleteReview(this.review_id);
+		                    console.log('Review deleted successfully');
+		                }
+		
+		                // 发送新评论到后端
+		                const response = await this.$api.user.postreview({
+		                    order_id: this.order_id,
+		                    comment: this.newComment
+		                });
+		
+		                console.log('Comment submitted successfully:', response);
+		
+		                this.review_id = response.data.review_id; // 获取新的 review_id
+		
+		                // 调用 navigateToCamera 方法拍照并上传图片
+		                this.navigateToCamera({ photo: '' });
+		
+		                uni.navigateBack({
+		                    delta: 1,
+		                    success: () => {
+		                        const eventChannel = this.getOpenerEventChannel();
+		                        eventChannel.emit('acceptreview', { review: this.newComment, src: this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : '' });
+		                    }
+		                });
+		            } catch (error) {
+		                console.error('Error submitting comment:', error);
+		            }
+		        }
+		    }
     }
+
 });
 </script>
 

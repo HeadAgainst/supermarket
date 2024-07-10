@@ -1,14 +1,14 @@
 <template>
     <view class="container">
-        <view class="comment" v-for="(comment, index) in comments" :key="index" @click="navigateToDetail(comment)">
-            <image :src="comment.src" class="avatar"></image>
-            <view class="comment-body">
-                <view class="comment-header">
-                    <text class="nickname">{{ comment.nickname }}</text>
-                    <text class="time">{{ comment.time }}</text>
+        <view class="review" v-for="(review, index) in reviews" :key="index" @click="navigateToDetail(review)">
+            <image :src="review.src" class="avatar"></image>
+            <view class="review-body">
+                <view class="review-header">
+                    <text class="order_id">订单号：{{ review.order_id }}</text>
+                    <text class="review_date">{{ review.review_date }}</text>
                 </view>
-                <view class="comment-content">
-                    <text>{{ comment.content }}</text>
+                <view class="review-comment">
+                    <text>评价：{{ review.comment }}</text>
                 </view>
             </view>
         </view>
@@ -19,25 +19,57 @@
 export default {
     data() {
         return {
-            comments: [
-                {
-                    src: 'https://example.com/avatar1.jpg',
-                    nickname: 'goods1',
-                    time: '2024-07-06',
-                    content: 'Great product, highly recommended!'
-                }
-            ]
+            user_id: '1',
+            reviews: []
         };
     },
+    created() {
+        this.loadReviews();
+    },
     methods: {
-        navigateToDetail(comment) {
-            const self = this;
-            uni.navigateTo({
-                url: `/pages/my/my-argue?nickname=${encodeURIComponent(comment.nickname)}&content=${encodeURIComponent(comment.content)}&src=${encodeURIComponent(comment.src)}`,
+        async loadReviews() {
+            const user_id = this.user_id;
+            try {
+                const response = await this.$api.user.getOrders(user_id);
+                console.log('API response:', response);
+                const orders = response.data || response;
+                if (Array.isArray(orders)) {
+                    const submittedOrders = orders.filter(order => order.status === '已提交');
+                    const reviewPromises = submittedOrders.map(async order => {
+                        if (order.review_id) {
+                            const imgResponse = await this.$api.user.getReviewimgURl(order.review_id);
+                            if (imgResponse && Array.isArray(imgResponse.data.img_urls)&&imgResponse.data.img_urls.length > 0) {
+                                const imgCode = imgResponse.data.img_urls[0].url;
+                                order.src =`http://hdu.frei.fun/reviews_img/${order.review_id}/${imgCode}`|| '';
+                                /*const actualImgResponse = await this.$api.user.getgetReviewimg(order.review_id, imgCode);
+                                console.log('actualImgResponse',actualImgResponse);
+                                order.src = actualImgResponse.url || ''; // 假设实际图片响应包含 `url`*/
+                            } else {
+                                order.src = '';
+                            }
+                        } else {
+                            order.src = '';
+                        }
+                        return order;
+                    });
+
+                    const reviews = await Promise.all(reviewPromises);
+                    this.reviews = reviews;
+                } else {
+                    throw new Error('Invalid API response format');
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+            }
+        },
+        navigateToDetail(review) {
+            console.log('review',this.review);
+			uni.navigateTo({
+                url: `/pages/my/my-argue?order_id=${encodeURIComponent(review.order_id)}&comment=${encodeURIComponent(review.comment)}&src=${encodeURIComponent(review.src)}&review_id=${encodeURIComponent(review.review_id)}`,
                 events: {
-                    acceptComment(data) {
-                        comment.content = data.comment;
-						comment.src=data.src;
+                    acceptreview(data) {
+                        review.comment = data.review;
+                        review.src = data.src;
                     }
                 },
                 fail(err) {
@@ -55,7 +87,7 @@ export default {
     background-color: #f8f8f8;
 }
 
-.comment {
+.review {
     display: flex;
     padding: 20px;
     margin-bottom: 20px;
@@ -72,28 +104,28 @@ export default {
     margin-right: 10px;
 }
 
-.comment-body {
+.review-body {
     flex: 1;
 }
 
-.comment-header {
+.review-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
 }
 
-.nickname {
+.order_id {
     font-weight: bold;
     color: #333;
 }
 
-.time {
+.review_date {
     color: #999;
     font-size: 12px;
 }
 
-.comment-content {
+.review-comment {
     color: #666;
 }
 </style>
