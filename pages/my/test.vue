@@ -3,8 +3,8 @@
         <view class="comment-detail">
             <text class="nickname">{{ order_id }}</text>
         </view>
-        <view class="comment" v-for="(comment, index) in comments" :key="index">
-            <button type="primary" @click="navigateToCamera(comment)">拍照上传</button>
+        <view class="comment" v-for="(comment, index) in comments" :key="index" @click="navigateToCamera(comment)">
+            <button type="primary">拍照上传</button>
             <image v-if="comment.photo" :src="comment.photo" mode="aspectFill" class="top-centered-image"></image>
         </view>
         <view class="input-box">
@@ -25,9 +25,10 @@ export default defineComponent({
             src: '',
             newComment: '',
             review_id: '',
-            comments: [{ photo: '' }]  // 确保这里是一个空数组，而不是null
+            comments: []  // 确保这里是一个空数组，而不是null
         };
-    },
+    }
+,
     onLoad(options) {
         if (options.src) {
             this.src = decodeURIComponent(options.src);
@@ -59,95 +60,81 @@ export default defineComponent({
     },
     methods: {
         navigateToCamera(comment) {
+            const self = this;
             uni.navigateTo({
                 url: "/pages/my/my-camera",
                 events: {
-                    acceptCamera: (data) => {
+                    acceptCamera(data) {
                         comment.photo = data.src;
                         console.log('Photo taken, path:', comment.photo);
-                        setTimeout(() => {
-                            // 这里保留注释的navigateTo代码，如果将来需要恢复可以使用
-                            // uni.navigateTo({
-                            //     url: "/pages/my/my-argue?src=" + encodeURIComponent(comment.photo)
-                            // });
-                        }, 1000);
-                    }
-                }
-            });
-        },
-        async submitComment() {
-            if (this.newComment.trim() !== '') {
-                try {
-                    // 先删除原来的评论
-                    if (this.review_id) {
-                        await this.$api.user.deleteReview(this.review_id);
-                        console.log('Review deleted successfully');
-                    }
-
-                    // 发送新评论到后端
-                    const response = await this.$api.user.postreview({
-                        order_id: this.order_id,
-                        comment: this.newComment
-                    });
-
-                    console.log('Comment submitted successfully:', response);
-
-                    this.review_id = response.data.review_id; // 获取新的 review_id
-
-                    // 提交评论后上传照片
-                    for (let comment of this.comments) {
-                        if (comment.photo) {
-                            console.log('comment.photo', comment.photo);
-                            await this.convertToBase64AndSubmit(comment.photo,this.review_id);
-                        }
-                    }
-
-                    uni.navigateBack({
-                        delta: 1,
-                        success: () => {
-                            const eventChannel = this.getOpenerEventChannel();
-                            eventChannel.emit('acceptreview', { review: this.newComment, src: this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : '', review_id: this.review_id });
-                        }
-                    });
-                } catch (error) {
-                    console.error('Error submitting comment:', error);
-                }
-            }
-        },
-        async convertToBase64AndSubmit(filePath, reviewid) {
-            const review_id = reviewid;
-        
-            // 下载文件到本地
-            wx.downloadFile({
-                url: filePath,
-                success: (res) => {
-                    if (res.statusCode === 200) {
-                        // 本地路径
-                        const localFilePath = res.tempFilePath;
-        
-                        // 上传文件到服务器
-                        wx.uploadFile({
-                            url: `https://hdu.frei.fun/reviews_img/${review_id}`,
-                            filePath: localFilePath,
-                            name: 'file', // 确保字段名与后端期望的一致
-                            header: {
-                                'Content-Type': 'image/jpeg' // 根据文件类型设置合适的Content-Type
-                            },
-                            success: (uploadFileRes) => {
-								console.log(uploadFileRes);
-                            },
-                            fail: (err) => {
-                                console.error('上传失败:', err);
-                            }
-                        });
+                        self.convertToBase64AndSubmit(comment.photo);
                     }
                 },
-                fail: (err) => {
-                    console.error('下载失败:', err);
+                fail(err) {
+                    console.error('Navigation failed:', err);
                 }
             });
-        }
+        },
+        async convertToBase64AndSubmit(filePath) {
+            // 获取图片文件内容
+            const res = await new Promise((resolve, reject) => {
+                uni.getFileSystemManager().readFile({
+                    filePath: filePath,
+                    encoding: 'base64',
+                    success: resolve,
+                    fail: reject
+                });
+            });
+    
+            const base64Data = data:image/jpeg;base64,${res.data};
+    
+            try {
+                // 获取最新的 review_id
+                const reviewId = this.review_id; // 你可能需要根据实际情况调整这行代码
+    
+                // 上传图片到服务器
+                const response = await this.$api.user.postReviewimg(reviewId, base64Data);
+                console.log('Image submitted successfully:', response);
+            } catch (error) {
+                console.error('Error submitting image:', error);
+            }
+        },
+		 async submitComment() {
+		        if (this.newComment.trim() !== '') {
+		            try {
+		                // 先删除原来的评论
+		                if (this.review_id) {
+		                    await this.$api.user.deleteReview(this.review_id);
+		                    console.log('Review deleted successfully');
+		                }
+		
+		                // 发送新评论到后端
+		                const response = await this.$api.user.postreview({
+		                    order_id: this.order_id,
+		                    comment: this.newComment
+		                });
+		
+		                console.log('Comment submitted successfully:', response);
+		
+		                this.review_id = response.data.review_id; // 获取新的 review_id
+		
+		                // 调用 navigateToCamera 方法拍照并上传图片
+		                this.navigateToCamera({ photo: '' });
+		
+		                uni.navigateBack({
+		                    delta: 1,
+		                    success: () => {
+		                        const eventChannel = this.getOpenerEventChannel();
+		                        eventChannel.emit('acceptreview', { review: this.newComment, src: this.comments.length > 0 ? this.comments[this.comments.length - 1].photo : '',review_id:this.review_id });
+		                    }
+		                });
+		            } catch (error) {
+		                console.error('Error submitting comment:', error);
+		            }
+		        }
+		    }
     }
+
 });
 </script>
 

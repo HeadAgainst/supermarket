@@ -38,6 +38,7 @@ export default {
                     const reviewPromises = submittedOrders.map(async order => {
                         if (order.review_id) {
                             const imgResponse = await this.$api.user.getReviewimgURl(order.review_id);
+							console.log()
                             if (imgResponse && Array.isArray(imgResponse.data.img_urls)&&imgResponse.data.img_urls.length > 0) {
                                 const imgCode = imgResponse.data.img_urls[0].url;
                                 order.src =`http://hdu.frei.fun/reviews_img/${order.review_id}/${imgCode}`|| '';
