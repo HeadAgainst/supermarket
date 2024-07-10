@@ -3,6 +3,6 @@ import http from "./request.js";
 
 export default {
 	login(params){
-		return http.get("/users")
-	}
+		return http.get("/products_img/123")
+	},
 }

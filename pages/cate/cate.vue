@@ -24,18 +24,18 @@
 			<uni-col :span="16">
 				<view class="display">
 					<view class="goods">
-						<template v-for="(sort, i) in sortageList" :key="i">
-							<view class="sortName" :id="'sortName'+i">{{sort}}</view>
+						<template v-for="(category, i) in sortageList" :key="i">
+							<!-- <view class="sortName" :id="'sortName'+i">{{category}}</view> -->
 							<template v-for="(item, index) in goods" :key="index">
-								<view class="good" v-if="sort == item.sort">
+								<view class="good" v-if="category == item.category">
 									<uni-row>
 										<uni-col :span="10">
-											<view @click="gotoGoodDetail(item.id)" style="line-height: 250upx;">
+											<view @click="gotoGoodDetail(item)" style="line-height: 250upx;">
 												<image :src="item.imageSrc" mode="aspectFit"></image>
 											</view>
 										</uni-col>
 										<uni-col :span="8">
-											<view class="info" @click="gotoGoodDetail(item.id)">
+											<view class="info" @click="gotoGoodDetail(item)">
 												<view class="g-title">{{item.text}}</view>
 												<view class="g-desc">剩余：{{item.remaining}}</view>
 												<view class="g-price">￥{{item.price}}</view>
@@ -45,7 +45,8 @@
 											<view class="cart">
 												<uni-icons type="minus" color="#ffaa00"
 													@click="addOrMinus(false, index)"></uni-icons>
-												<text space> {{mapGoodNum[item.id] ? mapGoodNum[item.id].num : 0}} </text>
+												<text space> {{mapGoodNum[item.id] ? mapGoodNum[item.id].num : 0}}
+												</text>
 												<uni-icons type="plus" color="#ffaa00"
 													@click="addOrMinus(true, index)"></uni-icons>
 											</view>
@@ -65,11 +66,11 @@
 <script>
 	import {
 		mapState,
-		mapMutations
+		mapMutations,
 	} from 'vuex'
 	import bottom from "../../components/bottom"
 	export default {
-		components:{
+		components: {
 			bottom
 		},
 		data() {
@@ -77,39 +78,12 @@
 				bottomView: true,
 				groupId: 0,
 				sortageList: ["水果蔬菜", "肉禽蛋品", "海鲜水产", "酒水饮料", "休闲零食", "烘焙面点", "粮油调味", "鲜活水产"],
-				goods: [{
-						imageSrc: "../../static/goodsImage/pingguo.jpg",
-						text: "苹果",
-						remaining: 10,
-						price: 10,
-						id: "1",
-						sort: "水果蔬菜"
-					},
-					{
-						imageSrc: "../../static/goodsImage/chengzi.jpg",
-						text: "橙子",
-						remaining: "100",
-						price: 20,
-						id: "2",
-						sort: "肉禽蛋品"
-					},
-					{
-						imageSrc: "../../static/goodsImage/xiangjiao.jpg",
-						text: "香蕉",
-						remaining: "100",
-						price: 20,
-						id: "3",
-						sort: "水果蔬菜"
-					},
-					{
-						imageSrc: "../../static/goodsImage/mianbao.jpg",
-						text: "面包",
-						remaining: "20",
-						price: 10,
-						id: "4",
-						sort: "休闲零食"
-					}
-				]
+				goods: [],
+				readyGoods: [],
+				getReady: [0, 0, 0, 0, 0, 0, 0, 0],
+				loading: false, // 加载标识符，
+				page: 1,
+				cancelToken:false// 取消异步加载工作
 			}
 		},
 		methods: {
@@ -120,17 +94,57 @@
 					icon: 'none'
 				})
 			},
-			choose(index) {
-				this.groupId = index;
-				const query = uni.createSelectorQuery().in(this);
-				query.select(`#sortName${index}`).boundingClientRect(data => {
-					uni.pageScrollTo({
-						scrollTop: data.top
-					})
-				}).exec();
+			loadMoreGoods() {
+				if (this.loading) return; // 防止重复加载
+				this.loading = true;
+				if (this.page * 10 < this.readyGoods.length) {
+					const extraGoods = this.readyGoods.slice((this.page) * 10, (this.page + 1) * 10);
+					this.goods.push(...extraGoods);
+					extraGoods.forEach(good => {
+						this.fetchGoodImage(good.id); // 更新新加载的商品的图片信息
+					});
+					this.loading = false;
+				}
+				this.loading = false;
 			},
-			gotoGoodDetail(goodId) {
-				const url = `/pages/goods/detail?id=${goodId}`
+			async fetchGoodImage(productId) {
+				try {
+					if(this.cancelToken == true){
+						return;
+					}
+					await this.$api.goods.getGoodImageLs(productId)
+						.then(res => {
+							if (res.data.img_urls.length > 0) {
+								const code = res.data.img_urls[0].url;
+								const goodIndex = this.goods.findIndex(good => good.id == productId);
+								if (goodIndex != -1) {
+									this.$set(this.goods[goodIndex], "imageSrc",
+										`https://hdu.frei.fun/products_img/${productId}/${code}`);
+								}
+							}
+						})
+				} catch (error) {
+					console.error('获取商品图片失败', error);
+				}
+
+			},
+			choose(index) {
+				this.cancelToken = true;
+				this.groupId = index;
+				this.page = 1;
+				this.$api.goods.getCategoryGood(this.sortageList[index])
+					.then(res => {
+						this.cancelToken = false;
+						this.readyGoods = res;
+						this.goods = res.slice((this.page - 1) * 10, 10);
+						this.goods.forEach(good => {
+							this.fetchGoodImage(good.id);
+						})
+					})
+			},
+			gotoGoodDetail(good) {
+				const goodStr = encodeURIComponent(JSON.stringify(good));
+				const url = `/pages/goods/detail?good=${goodStr}`
 				uni.navigateTo({
 					url: url,
 				})
@@ -158,10 +172,20 @@
 		},
 		onPageScroll(e) {
 			this.scrollTop = e.scrollTop;
+			if (e.scrollTop > this.page * 646) {
+				this.page += 1;
+				this.loadMoreGoods();
+			}
 			this.bottomView = false;
 		},
 		computed: {
-			...mapState(['sortCurrent', 'mapGoodNum'])
+			...mapState(['sortCurrent', 'mapGoodNum']),
+			// computedGoods() {
+			// 	return this.goods.map(good => ({
+			// 		...good,
+			// 		imageSrc: good.imageSrc || ''
+			// 	}))
+			// }
 		},
 		onShow() {
 			this.groupId = this.sortCurrent;
@@ -204,7 +228,7 @@
 				.good {
 					margin-left: 15upx;
 					margin-top: 2upx;
-					height: 250upx;
+					height: 300upx;
 					background-color: #fff;
 					text-align: center;
 
@@ -214,8 +238,8 @@
 					}
 
 					.cart {
-						height: 250upx;
-						line-height: 250upx;
+						height: 300upx;
+						line-height: 300upx;
 					}
 
 					.info {
@@ -225,7 +249,7 @@
 						}
 
 						.g-desc {
-							margin-top: 30upx;
+							margin-top: 10upx;
 							font-size: 20upx;
 							color: #8b8b8b;
 						}
@@ -234,7 +258,7 @@
 							font-weight: bold;
 							color: #ff5500;
 							font-size: 20upx;
-							margin-top: 30upx;
+							margin-top: 10upx;
 						}
 					}
 				}

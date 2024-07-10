@@ -8,75 +8,75 @@ const _sfc_main = {
   data() {
     return {
       current: 0,
-      swiperInfo: [
-        "../../static/goodsImage/pingguodetail/pingguo.jpg",
-        "../../static/goodsImage/pingguodetail/pingguo2.jpg"
-      ],
+      swiperInfo: [],
       isCollect: false,
       currentId: 0,
       good: {
-        imageSrc: "../../static/goodsImage/pingguo.jpg",
+        imageSrc: "../../static/pic_empty.png",
         // 商品图片列表
-        text: "苹果",
+        text: "",
         // 商品名称
-        remaining: "10",
+        remaining: "",
         // 剩余量
-        price: 10,
+        price: 0,
         // 商品价格
-        id: "1",
+        id: "",
         // 商品id
-        size: "斤",
+        size: "",
         // 规格
-        brand: "花果山",
+        brand: "",
         // 品牌
-        serve: "快速配货",
+        serve: "",
         // 服务
-        category: "水果蔬菜"
+        category: ""
       },
       comments: [{
-        userName: "xx",
+        userName: "Mike",
         // 用户名
-        time: "2021年04月1日14时33分",
+        time: "2024年07月10日8时33分",
         // 时间
         review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃",
         // 评论
         image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
-        // 头像
       }, {
-        userName: "xx",
+        userName: "Mike",
         // 用户名
-        time: "2021年04月1日14时33分",
+        time: "2021年07月10日8时35分",
         // 时间
         review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃",
         // 评论
         image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
-        // 头像
       }, {
-        userName: "xx",
+        userName: "Mike",
         // 用户名
-        time: "2021年04月1日14时33分",
+        time: "2024年07月10日10时30分",
         // 时间
         review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃",
         // 评论
         image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
-        // 头像
       }],
       isExpands: []
     };
   },
   methods: {
-    ...common_vendor.mapMutations(["addOneGood", "subtractOneGood", "selectColletion"]),
+    ...common_vendor.mapMutations([
+      "addOneGood",
+      "subtractOneGood",
+      "selectColletion",
+      "changeInDetail"
+    ]),
     swiperChange(e) {
       this.current = e.detail.current;
     },
     addOrMinus(flag) {
+      this.changeInDetail(false);
       if (flag == true) {
         this.addOneGood({
-          id: this.currentId,
+          id: this.good.id,
           num: 1,
-          price: 10,
-          imageSrc: "../../static/goodsImage/pingguo.jpg",
-          text: "苹果"
+          price: this.good.price,
+          imageSrc: this.good.imageSrc,
+          text: this.good.text
         });
       } else {
         this.subtractOneGood({
@@ -103,8 +103,14 @@ const _sfc_main = {
       });
     }
   },
+  onUnload() {
+    this.changeInDetail(true);
+  },
   onLoad(options) {
-    this.currentId = options.id;
+    const goodDetail = JSON.parse(decodeURIComponent(options.good));
+    this.good = goodDetail;
+    this.currentId = this.good.id;
+    this.swiperInfo.push(this.good.imageSrc);
     for (let i = 0; i < this.comments.length; i++) {
       this.isExpands.push(this.comments[i].review.length > 30 ? 1 : 0);
     }
@@ -116,7 +122,8 @@ const _sfc_main = {
     }
   },
   computed: {
-    ...common_vendor.mapState(["goods", "collectionBag"])
+    ...common_vendor.mapState(["goods", "collectionBag"]),
+    ...common_vendor.mapGetters(["getItemNum"])
   }
 };
 if (!Array) {
@@ -156,35 +163,36 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "minus",
       color: "#ffaa00"
     }),
-    i: common_vendor.o(($event) => $options.addOrMinus(true)),
-    j: common_vendor.p({
+    i: common_vendor.t(_ctx.getItemNum($data.currentId)),
+    j: common_vendor.o(($event) => $options.addOrMinus(true)),
+    k: common_vendor.p({
       type: "plus",
       color: "#ffaa00"
     }),
-    k: $data.isCollect == false
+    l: $data.isCollect == false
   }, $data.isCollect == false ? {
-    l: common_vendor.o($options.love),
-    m: common_vendor.p({
+    m: common_vendor.o($options.love),
+    n: common_vendor.p({
       type: "star",
       size: "30"
     })
   } : {}, {
-    n: $data.isCollect
+    o: $data.isCollect
   }, $data.isCollect ? {
-    o: common_vendor.o($options.love),
-    p: common_vendor.p({
+    p: common_vendor.o($options.love),
+    q: common_vendor.p({
       type: "star-filled",
       size: "30",
       color: "#ffaa00"
     })
   } : {}, {
-    q: common_vendor.t($data.good.size),
-    r: common_vendor.t($data.good.brand),
-    s: common_vendor.t($data.good.serve),
-    t: common_vendor.p({
+    r: common_vendor.t($data.good.size),
+    s: common_vendor.t($data.good.brand),
+    t: common_vendor.t($data.good.serve),
+    v: common_vendor.p({
       ["border-full"]: true
     }),
-    v: common_vendor.f($data.comments, (item, index, i0) => {
+    w: common_vendor.f($data.comments, (item, index, i0) => {
       return {
         a: common_vendor.t(item.userName),
         b: common_vendor.t(item.time),
@@ -200,7 +208,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         h: index
       };
-    })
+    }),
+    x: $data.good.imageSrc
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-adbe0a1d"], ["__file", "E:/Downloads/HBuildX/workplace/supermarket/pages/goods/detail.vue"]]);

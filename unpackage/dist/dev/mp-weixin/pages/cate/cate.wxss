@@ -32,7 +32,7 @@
 #sort .display .goods .good.data-v-7db0ce29 {
   margin-left: 15rpx;
   margin-top: 2rpx;
-  height: 250rpx;
+  height: 300rpx;
   background-color: #fff;
   text-align: center;
 }
@@ -41,15 +41,15 @@
   width: 200rpx;
 }
 #sort .display .goods .good .cart.data-v-7db0ce29 {
-  height: 250rpx;
-  line-height: 250rpx;
+  height: 300rpx;
+  line-height: 300rpx;
 }
 #sort .display .goods .good .info .g-title.data-v-7db0ce29 {
   margin-top: 20rpx;
   font-size: 25rpx;
 }
 #sort .display .goods .good .info .g-desc.data-v-7db0ce29 {
-  margin-top: 30rpx;
+  margin-top: 10rpx;
   font-size: 20rpx;
   color: #8b8b8b;
 }
@@ -57,7 +57,7 @@
   font-weight: bold;
   color: #ff5500;
   font-size: 20rpx;
-  margin-top: 30rpx;
+  margin-top: 10rpx;
 }
 #sort .display .goods .sortName.data-v-7db0ce29 {
   margin-left: 15rpx;

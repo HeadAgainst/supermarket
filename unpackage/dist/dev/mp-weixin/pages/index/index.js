@@ -60,16 +60,24 @@ const _sfc_main = {
     };
   },
   computed: {
-    ...common_vendor.mapState(["cart", "mapGoodNum", "goods", "isFromSettleSuccess"]),
-    ...common_vendor.mapGetters(["totalNum"])
+    ...common_vendor.mapState([
+      "cart",
+      "mapGoodNum",
+      "goods",
+      "isFromSettleSuccess",
+      "isChangeInDetail"
+    ]),
+    ...common_vendor.mapGetters(["totalNum", "getItemNum"])
   },
   methods: {
     ...common_vendor.mapMutations([
       "addOneGood",
       "subtractOneGood",
       "changSortCurrent",
-      "changeIsFromSettleSuccess"
+      "changeIsFromSettleSuccess",
+      "updateGoods"
     ]),
+    ...common_vendor.mapActions(["fetchGoodImage"]),
     searchFocus(e) {
       common_vendor.index.navigateTo({
         url: "/pages/search/search"
@@ -107,8 +115,9 @@ const _sfc_main = {
     },
     inputInfo(e) {
     },
-    gotoGoodDetail(goodId) {
-      const url = `/pages/goods/detail?id=${goodId}`;
+    gotoGoodDetail(good) {
+      const goodStr = encodeURIComponent(JSON.stringify(good));
+      const url = `/pages/goods/detail?good=${goodStr}`;
       common_vendor.index.navigateTo({
         url
       });
@@ -132,7 +141,14 @@ const _sfc_main = {
   },
   watch: {
     totalNum(newCount) {
-      this.setCartBadge(newCount);
+      if (this.isChangeInDetail == true) {
+        this.setCartBadge(newCount);
+      }
+    },
+    isChangeInDetail(newValue) {
+      if (newValue == true) {
+        this.setCartBadge(this.totalNum);
+      }
     }
   },
   onShow() {
@@ -144,8 +160,11 @@ const _sfc_main = {
     this.changeIsFromSettleSuccess(false);
   },
   onLoad() {
-    this.$api.user.login().then((res) => {
-      console.log(res);
+    this.$api.goods.getGoods().then((res) => {
+      this.updateGoods(res);
+      this.goods.forEach((good) => {
+        this.fetchGoodImage(good.id);
+      });
     });
   }
 };
@@ -217,12 +236,12 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     k: common_vendor.f(_ctx.goods, (item, index, i0) => {
       return {
         a: item.imageSrc,
-        b: common_vendor.o(($event) => $options.gotoGoodDetail(item.id), index),
+        b: common_vendor.o(($event) => $options.gotoGoodDetail(item), index),
         c: "1cf27b2a-6-" + i0 + "," + ("1cf27b2a-5-" + i0),
         d: common_vendor.t(item.text),
         e: common_vendor.t(item.remaining),
         f: common_vendor.t(item.price),
-        g: common_vendor.o(($event) => $options.gotoGoodDetail(item.id), index),
+        g: common_vendor.o(($event) => $options.gotoGoodDetail(item), index),
         h: "1cf27b2a-7-" + i0 + "," + ("1cf27b2a-5-" + i0),
         i: common_vendor.o(($event) => $options.addOrMinus(false, index), index),
         j: "1cf27b2a-9-" + i0 + "," + ("1cf27b2a-8-" + i0),

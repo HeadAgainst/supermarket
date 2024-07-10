@@ -34,12 +34,12 @@
 						<view class="good">
 							<uni-row>
 								<uni-col :span="12">
-									<view @click="gotoGoodDetail(item.id)">
+									<view @click="gotoGoodDetail(item)">
 										<image :src="item.imageSrc" mode="aspectFit"></image>
 									</view>
 								</uni-col>
 								<uni-col :span="8">
-									<view class="info" @click="gotoGoodDetail(item.id)">
+									<view class="info" @click="gotoGoodDetail(item)">
 										<view class="g-title">{{item.text}}</view>
 										<view class="g-desc">剩余：{{item.remaining}}</view>
 										<view class="g-price">￥{{item.price}}</view>
@@ -69,7 +69,8 @@
 	import {
 		mapMutations,
 		mapState,
-		mapGetters
+		mapGetters,
+		mapActions
 	} from 'vuex'
 	export default {
 		components: {
@@ -122,12 +123,15 @@
 			}
 		},
 		computed: {
-			...mapState(['cart', 'mapGoodNum', 'goods', 'isFromSettleSuccess']),
-			...mapGetters(['totalNum'])
+			...mapState(['cart', 'mapGoodNum', 'goods', 
+			'isFromSettleSuccess', 'isChangeInDetail']),
+			...mapGetters(['totalNum', 'getItemNum'])
 		},
 		methods: {
 			...mapMutations(['addOneGood', 'subtractOneGood', 
-			'changSortCurrent','changeIsFromSettleSuccess']),
+			'changSortCurrent','changeIsFromSettleSuccess',
+			'updateGoods']),
+			...mapActions(['fetchGoodImage']),
 			searchFocus(e) {
 				uni.navigateTo({
 					url: '/pages/search/search'
@@ -167,8 +171,9 @@
 			inputInfo(e) {
 				// console.log(e);
 			},
-			gotoGoodDetail(goodId) {
-				const url = `/pages/goods/detail?id=${goodId}`
+			gotoGoodDetail(good) {
+				const goodStr = encodeURIComponent(JSON.stringify(good));
+				const url = `/pages/goods/detail?good=${goodStr}`;
 				uni.navigateTo({
 					url: url,
 				})
@@ -191,7 +196,14 @@
 		},
 		watch: {
 			totalNum(newCount) {
-				this.setCartBadge(newCount);
+				if(this.isChangeInDetail == true){
+					this.setCartBadge(newCount);
+				}
+			},
+			isChangeInDetail(newValue){
+				if(newValue == true){
+					this.setCartBadge(this.totalNum);
+				}
 			}
 		},
 		onShow(){
@@ -203,8 +215,12 @@
 			this.changeIsFromSettleSuccess(false);	
 		},
 		onLoad(){
-			this.$api.user.login().then(res=>{
-				console.log(res);
+			this.$api.goods.getGoods()
+			.then(res=>{
+				this.updateGoods(res);
+				this.goods.forEach(good=>{
+					this.fetchGoodImage(good.id);
+				})
 			})
 		}
 	}
@@ -271,18 +287,18 @@
 		.goods {
 			.good {
 				margin: 15upx;
-				height: 250upx;
+				height: 350upx;
 				background-color: #fff;
 				border-radius: 10upx;
 
 				image {
-					height: 250upx;
-					width: 250upx;
+					height: 350upx;
+					width: 350upx;
 				}
 
 				.cart {
-					height: 250upx;
-					line-height: 250upx;
+					height: 350upx;
+					line-height: 350upx;
 				}
 
 				.info {

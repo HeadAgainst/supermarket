@@ -27,8 +27,9 @@ const _sfc_main = {
     cancel() {
       this.searchRes = this.goods;
     },
-    gotoGoodDetail(goodId) {
-      const url = `/pages/goods/detail?id=${goodId}`;
+    gotoGoodDetail(good) {
+      const goodStr = encodeURIComponent(JSON.stringify(good));
+      const url = `/pages/goods/detail?good=${goodStr}`;
       common_vendor.index.navigateTo({
         url
       });
@@ -71,7 +72,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.t(item.text),
         c: common_vendor.t(item.remaining),
         d: common_vendor.t(item.price),
-        e: common_vendor.o(($event) => $options.gotoGoodDetail(item.id), index),
+        e: common_vendor.o(($event) => $options.gotoGoodDetail(item), index),
         f: "c10c040c-2-" + i0 + ",c10c040c-1",
         g: index
       };

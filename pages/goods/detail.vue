@@ -23,7 +23,7 @@
 			</view>
 			<view class="select">
 				<uni-icons type="minus" color="#ffaa00" @click="addOrMinus(false)"></uni-icons>
-				<text space> 1 </text>
+				<text space> {{getItemNum(currentId)}} </text>
 				<uni-icons type="plus" color="#ffaa00" @click="addOrMinus(true)"></uni-icons>
 				<uni-icons type="star" size="30" v-if="isCollect==false" @click="love"></uni-icons>
 				<uni-icons type="star-filled" size="30" color="#ffaa00" v-if="isCollect" @click="love"></uni-icons>
@@ -67,7 +67,7 @@
 								</text>
 							</view>
 							<view class="reivew-pic">
-								<image src="../../static/goodsImage/pingguo.jpg" mode="widthFix"></image>
+								<image :src="good.imageSrc" mode="widthFix"></image>
 							</view>
 						</template>
 					</uni-list-item>
@@ -84,7 +84,8 @@
 <script>
 	import {
 		mapMutations,
-		mapState
+		mapState,
+		mapGetters
 	} from 'vuex'
 	import bottom from "../../components/bottom"
 	export default {
@@ -94,55 +95,55 @@
 		data() {
 			return {
 				current: 0,
-				swiperInfo: ["../../static/goodsImage/pingguodetail/pingguo.jpg",
-					"../../static/goodsImage/pingguodetail/pingguo2.jpg"
+				swiperInfo: [
 				],
 				isCollect: false,
 				currentId: 0,
 				good: {
-					imageSrc: "../../static/goodsImage/pingguo.jpg", // 商品图片列表
-					text: "苹果", // 商品名称
-					remaining: "10", // 剩余量
-					price: 10, // 商品价格
-					id: "1", // 商品id
-					size: "斤", // 规格
-					brand: "花果山", // 品牌
-					serve: "快速配货", // 服务
-					category: "水果蔬菜",
+					imageSrc: "../../static/pic_empty.png", // 商品图片列表
+					text: "", // 商品名称
+					remaining: "", // 剩余量
+					price: 0, // 商品价格
+					id: "", // 商品id
+					size: "", // 规格
+					brand: "", // 品牌
+					serve: "", // 服务
+					category: "",
 				},
 				comments: [{
-					userName: "xx", // 用户名
-					time: "2021年04月1日14时33分", // 时间
+					userName: "Mike", // 用户名
+					time: "2024年07月10日8时33分", // 时间
 					review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃", // 评论
-					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png", // 头像
+					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
 				}, {
-					userName: "xx", // 用户名
-					time: "2021年04月1日14时33分", // 时间
+					userName: "Mike", // 用户名
+					time: "2021年07月10日8时35分", // 时间
 					review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃", // 评论
-					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png", // 头像
+					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
 				}, {
-					userName: "xx", // 用户名
-					time: "2021年04月1日14时33分", // 时间
+					userName: "Mike", // 用户名
+					time: "2024年07月10日10时30分", // 时间
 					review: "很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃很好吃", // 评论
-					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png", // 头像
+					image: "https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png"
 				}],
 				isExpands: []
 			}
 		},
 		methods: {
-			...mapMutations(['addOneGood', 'subtractOneGood', 'selectColletion']),
+			...mapMutations(['addOneGood', 'subtractOneGood', 
+			'selectColletion','changeInDetail']),
 			swiperChange(e) {
 				this.current = e.detail.current;
 			},
 			addOrMinus(flag) {
-				// console.log(this.currentId);
+				this.changeInDetail(false);
 				if (flag == true) {
 					this.addOneGood({
-						id: this.currentId,
+						id: this.good.id,
 						num: 1,
-						price: 10,
-						imageSrc: "../../static/goodsImage/pingguo.jpg",
-						text: "苹果",
+						price: this.good.price,
+						imageSrc: this.good.imageSrc,
+						text: this.good.text,
 					});
 				} else {
 					this.subtractOneGood({
@@ -169,8 +170,14 @@
 				});
 			}
 		},
+		onUnload(){
+			this.changeInDetail(true);
+		},
 		onLoad(options) {
-			this.currentId = options.id;
+			const goodDetail = JSON.parse(decodeURIComponent(options.good));
+			this.good = goodDetail;
+			this.currentId = this.good.id;
+			this.swiperInfo.push(this.good.imageSrc);
 			for (let i = 0; i < this.comments.length; i++) {
 				this.isExpands.push(this.comments[i].review.length > 30 ? 1 : 0);
 				// 0表示小于30，1表示大于30，2表示已经展开了
@@ -181,10 +188,10 @@
 			}else{
 				this.isCollect = true;
 			}
-			// console.log(typeof this.currentId);
 		},
 		computed: {
-			...mapState(['goods', 'collectionBag'])
+			...mapState(['goods', 'collectionBag']),
+			...mapGetters(['getItemNum'])
 		}
 	}
 </script>

@@ -87,7 +87,8 @@
 				addressInfo: {
 					name: "",
 					phone: "",
-					detail: ""
+					detail: "",
+					address_id:""
 				},
 			}
 		},
@@ -118,12 +119,52 @@
 				})
 			},
 			submit() {
-				this.emptyCart();
-				uni.redirectTo({
-					url: "/pages/cart/SetttleSuccess"
-				})
+				if(this.addressInfo == ""){
+					uni.showToast({
+						title:"请选择地址",
+						icon:"error"
+					})
+				}else{
+					uni.redirectTo({
+						url: "/pages/cart/SetttleSuccess"
+					})
+					const submitCart = [];
+					console.log(this.cart);
+					for(let i = 0; i < this.cart.length; i++){
+						submitCart.push({
+							product_id:this.cart[i].id,
+							quantity:this.cart[i].num
+						});
+					}
+					const submitBody = {
+						user_id:"1",
+						address_id:this.addressInfo.address_id,
+						total:this.totalPrice,
+						items:submitCart
+					};
+					console.log(submitCart);
+					this.$api.order.submitOrder(submitBody)
+					.then(res=>{
+						if(res.statusCode == 200){
+							uni.showToast({
+								title:"支付成功"
+							})
+						}
+					});
+					this.emptyCart();
+				}
+				
 			}
-		}
+		},
+		onLoad(){
+			this.$api.order.getAdress()
+			.then(res=>{
+				this.addressInfo.name = res.data[0].name;
+				this.addressInfo.phone = res.data[0].phone;
+				this.addressInfo.detail = res.data[0].address_line1+" "+res.data[0].address_line2;
+				this.addressInfo.address_id = res.data[0].address_id
+			})
+		},
 	}
 </script>
 

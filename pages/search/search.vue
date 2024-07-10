@@ -10,7 +10,7 @@
 		<view class="">
 			<uni-list :border="true">
 				<template v-for="(item, index) in searchRes" :key="index">
-					<uni-list-item @click="gotoGoodDetail(item.id)" :clickable="true">
+					<uni-list-item @click="gotoGoodDetail(item)" :clickable="true">
 						<template v-slot:header>
 							<image class="slot-image" :src="item.imageSrc" mode=""></image>
 						</template>
@@ -63,8 +63,9 @@
 			cancel(){
 				this.searchRes = this.goods;
 			},
-			gotoGoodDetail(goodId) {
-				const url = `/pages/goods/detail?id=${goodId}`
+			gotoGoodDetail(good) {
+				const goodStr = encodeURIComponent(JSON.stringify(good));
+				const url = `/pages/goods/detail?good=${goodStr}`
 				uni.navigateTo({
 					url: url,
 				})

@@ -8646,6 +8646,31 @@ var mapGetters = normalizeNamespace(function(namespace, getters) {
   });
   return res;
 });
+var mapActions = normalizeNamespace(function(namespace, actions) {
+  var res = {};
+  if (!isValidMap(actions)) {
+    console.error("[vuex] mapActions: mapper parameter must be either an Array or an Object");
+  }
+  normalizeMap(actions).forEach(function(ref2) {
+    var key = ref2.key;
+    var val = ref2.val;
+    res[key] = function mappedAction() {
+      var args = [], len = arguments.length;
+      while (len--)
+        args[len] = arguments[len];
+      var dispatch2 = this.$store.dispatch;
+      if (namespace) {
+        var module2 = getModuleByNamespace(this.$store, "mapActions", namespace);
+        if (!module2) {
+          return;
+        }
+        dispatch2 = module2.context.dispatch;
+      }
+      return typeof val === "function" ? val.apply(this, [dispatch2].concat(args)) : dispatch2.apply(this.$store, [val].concat(args));
+    };
+  });
+  return res;
+});
 function normalizeMap(map2) {
   if (!isValidMap(map2)) {
     return [];
@@ -8685,6 +8710,7 @@ exports.e = e;
 exports.f = f;
 exports.index = index;
 exports.initVueI18n = initVueI18n;
+exports.mapActions = mapActions;
 exports.mapGetters = mapGetters;
 exports.mapMutations = mapMutations;
 exports.mapState = mapState;

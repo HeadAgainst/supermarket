@@ -10,40 +10,14 @@ const _sfc_main = {
       bottomView: true,
       groupId: 0,
       sortageList: ["水果蔬菜", "肉禽蛋品", "海鲜水产", "酒水饮料", "休闲零食", "烘焙面点", "粮油调味", "鲜活水产"],
-      goods: [
-        {
-          imageSrc: "../../static/goodsImage/pingguo.jpg",
-          text: "苹果",
-          remaining: 10,
-          price: 10,
-          id: "1",
-          sort: "水果蔬菜"
-        },
-        {
-          imageSrc: "../../static/goodsImage/chengzi.jpg",
-          text: "橙子",
-          remaining: "100",
-          price: 20,
-          id: "2",
-          sort: "肉禽蛋品"
-        },
-        {
-          imageSrc: "../../static/goodsImage/xiangjiao.jpg",
-          text: "香蕉",
-          remaining: "100",
-          price: 20,
-          id: "3",
-          sort: "水果蔬菜"
-        },
-        {
-          imageSrc: "../../static/goodsImage/mianbao.jpg",
-          text: "面包",
-          remaining: "20",
-          price: 10,
-          id: "4",
-          sort: "休闲零食"
-        }
-      ]
+      goods: [],
+      readyGoods: [],
+      getReady: [0, 0, 0, 0, 0, 0, 0, 0],
+      loading: false,
+      // 加载标识符，
+      page: 1,
+      cancelToken: false
+      // 取消异步加载工作
     };
   },
   methods: {
@@ -54,17 +28,58 @@ const _sfc_main = {
         icon: "none"
       });
     },
-    choose(index) {
-      this.groupId = index;
-      const query = common_vendor.index.createSelectorQuery().in(this);
-      query.select(`#sortName${index}`).boundingClientRect((data) => {
-        common_vendor.index.pageScrollTo({
-          scrollTop: data.top
+    loadMoreGoods() {
+      if (this.loading)
+        return;
+      this.loading = true;
+      if (this.page * 10 < this.readyGoods.length) {
+        const extraGoods = this.readyGoods.slice(this.page * 10, (this.page + 1) * 10);
+        this.goods.push(...extraGoods);
+        extraGoods.forEach((good) => {
+          this.fetchGoodImage(good.id);
         });
-      }).exec();
+        this.loading = false;
+      }
+      this.loading = false;
     },
-    gotoGoodDetail(goodId) {
-      const url = `/pages/goods/detail?id=${goodId}`;
+    async fetchGoodImage(productId) {
+      try {
+        if (this.cancelToken == true) {
+          return;
+        }
+        await this.$api.goods.getGoodImageLs(productId).then((res) => {
+          if (res.data.img_urls.length > 0) {
+            const code = res.data.img_urls[0].url;
+            const goodIndex = this.goods.findIndex((good) => good.id == productId);
+            if (goodIndex != -1) {
+              this.$set(
+                this.goods[goodIndex],
+                "imageSrc",
+                `https://hdu.frei.fun/products_img/${productId}/${code}`
+              );
+            }
+          }
+        });
+      } catch (error) {
+        console.error("获取商品图片失败", error);
+      }
+    },
+    choose(index) {
+      this.cancelToken = true;
+      this.groupId = index;
+      this.page = 1;
+      this.$api.goods.getCategoryGood(this.sortageList[index]).then((res) => {
+        this.cancelToken = false;
+        this.readyGoods = res;
+        this.goods = res.slice((this.page - 1) * 10, 10);
+        this.goods.forEach((good) => {
+          this.fetchGoodImage(good.id);
+        });
+      });
+    },
+    gotoGoodDetail(good) {
+      const goodStr = encodeURIComponent(JSON.stringify(good));
+      const url = `/pages/goods/detail?good=${goodStr}`;
       common_vendor.index.navigateTo({
         url
       });
@@ -91,10 +106,20 @@ const _sfc_main = {
   },
   onPageScroll(e) {
     this.scrollTop = e.scrollTop;
+    if (e.scrollTop > this.page * 646) {
+      this.page += 1;
+      this.loadMoreGoods();
+    }
     this.bottomView = false;
   },
   computed: {
     ...common_vendor.mapState(["sortCurrent", "mapGoodNum"])
+    // computedGoods() {
+    // 	return this.goods.map(good => ({
+    // 		...good,
+    // 		imageSrc: good.imageSrc || ''
+    // 	}))
+    // }
   },
   onShow() {
     this.groupId = this.sortCurrent;
@@ -139,16 +164,14 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     c: common_vendor.p({
       span: 8
     }),
-    d: common_vendor.f($data.sortageList, (sort, i, i0) => {
+    d: common_vendor.f($data.sortageList, (category, i, i0) => {
       return {
-        a: common_vendor.t(sort),
-        b: "sortName" + i,
-        c: common_vendor.f($data.goods, (item, index, i1) => {
+        a: common_vendor.f($data.goods, (item, index, i1) => {
           return common_vendor.e({
-            a: sort == item.sort
-          }, sort == item.sort ? {
+            a: category == item.category
+          }, category == item.category ? {
             b: item.imageSrc,
-            c: common_vendor.o(($event) => $options.gotoGoodDetail(item.id), index),
+            c: common_vendor.o(($event) => $options.gotoGoodDetail(item), index),
             d: "7db0ce29-6-" + i0 + "-" + i1 + "," + ("7db0ce29-5-" + i0 + "-" + i1),
             e: common_vendor.p({
               span: 10
@@ -156,7 +179,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             f: common_vendor.t(item.text),
             g: common_vendor.t(item.remaining),
             h: common_vendor.t(item.price),
-            i: common_vendor.o(($event) => $options.gotoGoodDetail(item.id), index),
+            i: common_vendor.o(($event) => $options.gotoGoodDetail(item), index),
             j: "7db0ce29-7-" + i0 + "-" + i1 + "," + ("7db0ce29-5-" + i0 + "-" + i1),
             k: common_vendor.p({
               span: 8
@@ -183,7 +206,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             w: index
           });
         }),
-        d: i
+        b: i
       };
     }),
     e: common_vendor.p({

@@ -102,7 +102,8 @@
 			}
 		},
 		methods: {
-			...mapMutations(['changeCartState', 'deleteOneGood', 'addOneGood', 'changeIsFromSettleSuccess']),
+			...mapMutations(['changeCartState', 'deleteOneGood', 'addOneGood',
+			 'changeIsFromSettleSuccess', 'subtractOneGood']),
 			swipeItemClickHandler(index) {
 				this.deleteOneGood(index);
 				if(this.totalNum == 0){
@@ -119,13 +120,20 @@
 				});
 			},
 			numberChangeHandler(e, index) {
-				this.addOneGood({
-					id: this.cart[index].id,
-					num: 1,
-					price: this.cart[index].price,
-					imageSrc:this.cart[index].imageSrc,
-					text:this.cart[index].text
-				})
+				if(e >= this.cart[index].num){
+					this.addOneGood({
+						id: this.cart[index].id,
+						num: 1,
+						price: this.cart[index].price,
+						imageSrc:this.cart[index].imageSrc,
+						text:this.cart[index].text
+					})
+				}else{
+					this.subtractOneGood({
+						id: this.cart[index].id,
+						num: 1
+					});
+				}
 			},
 			changeAllState() {
 				this.selectAll = !this.selectAll;
