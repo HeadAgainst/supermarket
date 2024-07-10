@@ -62,6 +62,11 @@ const _sfc_main = {
       const minutes = String(now.getMinutes()).padStart(2, "0");
       return `${year}-${month}-${day} ${hours}:${minutes}`;
     }
+  },
+  onLoad() {
+    this.$api.user.getOrders("1").then((res) => {
+      console.log("Response received", res);
+    });
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {

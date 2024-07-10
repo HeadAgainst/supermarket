@@ -4,9 +4,13 @@ const _sfc_main = {
   data() {
     return {
       index: null,
+      user_id: "1",
+      // 假设用户ID是1
       name: "",
       phone: "",
-      detail: ""
+      address_line1: "",
+      address_line2: ""
+      // 新增字段 address_line2
     };
   },
   onLoad(options) {
@@ -14,7 +18,7 @@ const _sfc_main = {
       this.index = parseInt(options.index);
       this.name = decodeURIComponent(options.name);
       this.phone = decodeURIComponent(options.phone);
-      this.detail = decodeURIComponent(options.detail);
+      this.address_line1 = decodeURIComponent(options.detail);
     }
   },
   methods: {
@@ -22,18 +26,32 @@ const _sfc_main = {
       const updatedAddress = {
         name: this.name,
         phone: this.phone,
-        detail: this.detail
+        detail: this.address_line1
       };
-      const eventChannel = this.getOpenerEventChannel();
-      eventChannel.emit("updateAddress", { index: this.index, address: updatedAddress });
-      common_vendor.index.navigateBack();
+      const data = {
+        name: this.name,
+        user_id: this.user_id,
+        phone: this.phone,
+        address_line1: this.address_line1,
+        address_line2: null
+      };
+      this.$api.user.post(data).then((res) => {
+        console.log(data);
+        const eventChannel = this.getOpenerEventChannel();
+        eventChannel.emit("updateAddress", { index: this.index, address: updatedAddress });
+        setTimeout(() => {
+          common_vendor.index.navigateBack();
+        }, 2e3);
+      }).catch((error) => {
+        console.error("Error saving address:", error);
+      });
     },
     getAddressList() {
       common_vendor.wx$1.chooseAddress({
         success: (res) => {
           this.name = res.userName;
           this.phone = res.telNumber;
-          this.detail = res.provinceName + res.cityName + res.countyName + res.detailInfo;
+          this.address_line1 = res.provinceName + res.cityName + res.countyName + res.detailInfo;
         }
       });
     }
@@ -68,8 +86,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       ["right-text"]: "点击获取地址",
       to: "receive-get"
     }),
-    i: $data.detail,
-    j: common_vendor.o(($event) => $data.detail = $event.detail.value),
+    i: $data.address_line1,
+    j: common_vendor.o(($event) => $data.address_line1 = $event.detail.value),
     k: common_vendor.o((...args) => $options.saveAddress && $options.saveAddress(...args))
   };
 }

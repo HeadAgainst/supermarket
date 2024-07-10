@@ -23,7 +23,7 @@ const http = {
     return this.request({
       url,
       data,
-      auth,
+      auth: true,
       method: "GET"
     });
   },
@@ -41,7 +41,7 @@ const http = {
       auth,
       method: "DELETE"
     });
-  }
+  },
   // post(url, data, auth){
   // 	return this.request({
   // 		url:url,
@@ -50,6 +50,14 @@ const http = {
   // 		method:"PUT"
   // 	})
   // },
+  put(url, data, auth) {
+    return this.request({
+      url,
+      data,
+      auth,
+      method: "PUT"
+    });
+  }
 };
 const beforeRequest = (config) => {
   return config;

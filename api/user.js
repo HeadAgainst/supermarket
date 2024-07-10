@@ -4,10 +4,6 @@ import http from "./request.js";
 export default {
 	//登录接口
 	login(params){
-<<<<<<< HEAD
-		return http.get("/products_img/123")
-	},
-=======
 		return http.get('/users')
 	},
 	//获取所有用户（get /users)
@@ -43,5 +39,4 @@ export default {
 	updateOrders(order_id){
 		
 	}
->>>>>>> f3419f8b2999523472bb190013d49fd264a4d320
 }
